@@ -1,4 +1,4 @@
-"""Demo web del producto (US1-US9) sobre la lógica de app/, sin dependencias extra.
+"""Demo web del producto (US1-US10) sobre la lógica de app/, con exportación a PDF y Excel.
 
 Uso:
     python demo_web.py        # abre http://localhost:8000
@@ -8,7 +8,7 @@ la sesión viaja en la URL (?u=id). Las fotos que sube el campesino (JPG o PNG) 
 en una carpeta temporal que se borra al cerrar la demo.
 
 Rutas: /login (US1), /reportar (US2, US3), /leida (US7), /revisar y /diagnosticar (US5),
-/resolver (US8), /panel (US4, US6, US9) y /fotos/<archivo> para mostrar las imágenes.
+/exportar (US10), /resolver (US8), /panel (US4, US6, US9) y /fotos/<archivo> para mostrar las imágenes.
 """
 import atexit
 import html
@@ -21,9 +21,9 @@ from email import policy
 from email.parser import BytesParser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, quote, urlparse
+from urllib.parse import parse_qs, quote, urlencode, urlparse
 
-from app import (db, diagnosticos, estadisticas, notificaciones, reportes,
+from app import (db, diagnosticos, estadisticas, exportaciones, notificaciones, reportes,
                  usuarios)
 from app.errores import ErrorDominio, ErrorValidacion
 
@@ -122,7 +122,7 @@ def vista_campesino(u) -> str:
             f'<p><a href=/>Salir</a></p>')
 
 
-def vista_profesional(u) -> str:
+def vista_profesional(u, zona: str = "", tipo_plaga: str = "") -> str:
     uid = u["id"]
 
     def boton(ruta: str, rid: int, texto: str) -> str:
@@ -149,10 +149,17 @@ def vista_profesional(u) -> str:
            'Recomendación<input name=recomendacion><button>Diagnosticar</button></form>')
         + "</div>" for r in otros) or "<p>Sin casos en seguimiento.</p>"
     stats = "".join(f'<span class="tag">{e}: {t}</span> '
-                    for e, t in estadisticas.reportes_por_estado(CONN, uid).items())
+                    for e, t in estadisticas.reportes_por_estado(CONN, uid, zona, tipo_plaga).items())
+    filtros = (f'<form method=get action=/panel><input type=hidden name=u value={uid}>'
+               f'Zona<input name=zona maxlength=200 value="{html.escape(zona, quote=True)}">'
+               f'Tipo de plaga<input name=tipo_plaga maxlength=200 '
+               f'value="{html.escape(tipo_plaga, quote=True)}"><button>Filtrar</button></form>')
+    descargas = " ".join(
+        f'<a href="/exportar?{html.escape(urlencode(dict(u=uid, zona=zona, tipo_plaga=tipo_plaga, formato=f)), quote=True)}">'
+        f'Descargar {etiqueta}</a>' for f, etiqueta in (("pdf", "PDF"), ("xlsx", "Excel")))
     return (f'<h2>Hola, {html.escape(u["nombre"])} (profesional)</h2><h3>Pendientes (US4, US5)</h3>'
             f'{pend}<h3>En seguimiento (US8)</h3>{seguimiento}<h3>Estadísticas (US9)</h3>'
-            f'<div class="card">{stats}</div><p><a href=/>Salir</a></p>')
+            f'<div class="card">{filtros}{stats}<p>{descargas}</p></div><p><a href=/>Salir</a></p>')
 
 
 class Manejador(BaseHTTPRequestHandler):
@@ -217,10 +224,29 @@ class Manejador(BaseHTTPRequestHandler):
             if archivo.is_file():
                 return self._enviar_foto(archivo)
             return self._responder(pagina("<p>Foto no encontrada.</p>"), 404)
-        if url.path == "/panel" and "u" in q:
-            u = usuarios.obtener_usuario(CONN, int(q["u"][0]))
-            vista = vista_campesino if u["rol"] == "campesino" else vista_profesional
-            return self._responder(pagina(vista(u), q.get("msg", [""])[0]))
+        if url.path in ("/panel", "/exportar"):
+            try:
+                uid = int(q.get("u", [""])[0])
+                zona = q.get("zona", [""])[0]
+                plaga = q.get("tipo_plaga", [""])[0]
+                if url.path == "/exportar":
+                    formato = q.get("formato", [""])[0]
+                    datos = exportaciones.exportar_estadisticas(CONN, uid, formato, zona, plaga)
+                    tipo, nombre = exportaciones.FORMATOS[formato]
+                    self.send_response(200)
+                    self.send_header("Content-Type", tipo)
+                    self.send_header("Content-Disposition", f'attachment; filename="{nombre}"')
+                    self.send_header("Content-Length", str(len(datos)))
+                    self.end_headers()
+                    self.wfile.write(datos)
+                    return
+                u = usuarios.obtener_usuario(CONN, uid)
+                vista = (vista_campesino(u) if u["rol"] == "campesino"
+                         else vista_profesional(u, zona, plaga))
+                return self._responder(pagina(vista, q.get("msg", [""])[0]))
+            except (ValueError, ErrorDominio) as e:
+                mensaje = str(e) if isinstance(e, ErrorDominio) else "Usuario inválido. Inicie sesión."
+                return self._responder(pagina(vista_login(), mensaje), 400)
         self._responder(pagina(vista_login(), parse_qs(url.query).get("msg", [""])[0]))
 
     def do_POST(self) -> None:

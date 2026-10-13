@@ -2,8 +2,9 @@
 
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Materia:** Prácticas Aplicadas — Politécnico Grancolombiano, Tecnología en Desarrollo de Software  
-**Fecha de la entrega:** 30 de septiembre de 2026  
-**Versión del acta:** 1.0
+**Fecha de la entrega original:** 30 de septiembre de 2026<br>
+**Fecha de actualización:** 13 de octubre de 2026<br>
+**Versión del acta:** 1.1
 
 ## 1. Datos generales
 
@@ -14,7 +15,7 @@
 | **Product Owner** | Juan Miguel Parra Garzón |
 | **Equipo de desarrollo** | Santiago Cortez Mojica |
 | **Repositorio** | https://github.com/SayoNara34/Practicas-Proyecto |
-| **Metodología** | Scrum (Sprints 0 a 3 completados) |
+| **Metodología** | Scrum (Sprints 0 a 3 documentados como completados; incremento técnico del Sprint 4 pendiente de aceptación) |
 
 ## 2. Objetivo del producto
 
@@ -22,13 +23,14 @@ Permitir que campesinos del Llano Oriental reporten afectaciones en sus cultivos
 
 ## 3. Alcance de esta entrega
 
-Se entregan las historias de usuario US1 a US9, con lógica de negocio, base de datos, pruebas y dos formas de demostración.
+Se documentan las historias US1 a US9 de la entrega previa y el incremento técnico US10 del Sprint 4, con lógica de negocio, base de datos, pruebas y dos formas de demostración.
 
 | Sprint | Historias | Funcionalidad entregada |
 |---|---|---|
 | 1 | US1, US2, US3 | Registro e inicio de sesión del campesino; reporte con fotos; ubicación del cultivo (dirección o coordenadas) |
 | 2 | US4, US5, US6 | Reportes pendientes para el profesional; diagnóstico con recomendación; estado del reporte para el campesino |
 | 3 | US7, US8, US9 | Notificaciones por cambio de estado; cierre del caso; estadísticas por estado, zona y tipo de plaga |
+| 4 | US10 | Exportación a PDF y Excel de estadísticas filtradas; aceptación pendiente |
 
 **Ciclo de vida del reporte:** Reportado → En revisión → Diagnosticado → Resuelto (también Reportado → Diagnosticado). No se permiten otros saltos.
 
@@ -36,7 +38,7 @@ Se entregan las historias de usuario US1 a US9, con lógica de negocio, base de 
 
 | Entregable | Ubicación |
 |---|---|
-| Lógica de negocio (9 historias) | `app/` |
+| Lógica de negocio (10 historias) | `app/` |
 | Esquema de base de datos (SQLite) | `schema.sql` |
 | Pruebas unitarias | `tests/` |
 | Recorrido de demostración en consola | `demo.py` |
@@ -44,6 +46,8 @@ Se entregan las historias de usuario US1 a US9, con lógica de negocio, base de 
 | Definition of Done | `docs/DoD_Control_Plagas_Platano.pdf` |
 | Estándar de documentación (v1.1) | `docs/ESTANDAR_DOCUMENTACION.md` |
 | Manual de instalación y ejecución | `README.md` |
+| Manual de usuario | `docs/MANUAL_USUARIO_PLANTAS.pdf` |
+| Planeación, acta, backlog, pruebas y retrospectiva del Sprint 4 | Documentos `SPRINT_4.md`, `ACTA_SPRINT_4.md`, `PRODUCT_BACKLOG.md`, `PLAN_PRUEBAS_SPRINT_4.md` y `RETROSPECTIVA_SPRINT_4.md` en `docs/` |
 
 ## 4. Evidencias verificables
 
@@ -51,7 +55,8 @@ Cada cifra puede reproducirse desde la carpeta raíz del proyecto.
 
 | Evidencia | Comando | Resultado esperado |
 |---|---|---|
-| Pruebas unitarias | `python -m pytest` | `69 passed` |
+| Pruebas unitarias | `python -m pytest` | `87 passed` |
+| Descarga PDF y Excel | `python scripts/verificar_sprint_4.py` | Archivos válidos, total 1 con filtros, acceso de campesino rechazado |
 | Flujo de extremo a extremo | `python demo.py` | Registro → reporte → diagnóstico → notificación → cierre → estadísticas, sin errores |
 | Demo web | `python demo_web.py` y abrir `http://localhost:8000` | Pantallas de campesino y profesional operando sobre la misma lógica |
 
@@ -72,25 +77,27 @@ Los criterios 3 a 6 se comprueban con los comandos de la sección 4. Los criteri
 | 1 | Criterios de aceptación | Por confirmar | Product Backlog |
 | 2 | Código integrado y revisado | Por confirmar | Historial de revisiones del repositorio |
 | 3 | Estándar de código | Cumple | `docs/ESTANDAR_DOCUMENTACION.md`, lista de revisión (sección 12) |
-| 4 | Pruebas unitarias | Cumple | `python -m pytest` → 69 passed |
+| 4 | Pruebas unitarias | Cumple | `python -m pytest` → 87 passed |
 | 5 | Prueba de flujo | Cumple | `python demo.py` y demo web |
 | 6 | Validaciones y errores | Cumple | Excepciones de dominio con mensajes para el usuario, cubiertas por pruebas |
 | 7 | Sin defectos críticos | Por confirmar | Lista de defectos abiertos del equipo |
 | 8 | Backlog actualizado | Por confirmar | Product Backlog (US1–US9 en "Completada") |
 | 9 | Sprint Review | Por confirmar | Acta del Sprint Review y aceptación del Product Owner |
-| 10 | Documentación | Cumple | README y estándar actualizados en esta entrega |
+| 10 | Documentación | Cumple | README, estándar, manual y documentos del Sprint 4 actualizados |
 
 ## 6. Limitaciones conocidas
 
-- La interfaz web es una **demostración**: la sesión viaja en la URL, no hay carga real de fotos (se registra solo el nombre del archivo) y los datos viven en memoria.
+- La interfaz web es una **demostración**: la sesión viaja en la URL, las fotos reales JPG/PNG se guardan en una carpeta temporal (los reportes de ejemplo solo contienen nombres) y los datos viven en memoria.
 - No hay API ni pantallas definitivas; se construirán sobre la lógica de `app/` sin duplicar reglas de negocio.
-- No hay manual de usuario final independiente del README.
+- Hay un manual independiente para la demostración; no acredita una interfaz final de producción.
 
 ## 7. Próximos pasos
 
-- Sprint 4 (candidata): exportar el panel de estadísticas a PDF o Excel.
+- Sprint 4: revisar y aceptar US10, confirmar la ampliación del DoD e integrar tras revisión de otro integrante.
 - Definir el stack de la interfaz web de producción y la carga real de fotos.
 - Actualizar este documento y el DoD si cambia el alcance.
+
+La actualización de esta acta no acredita una reunión, revisión o aceptación adicional. Consultar `ACTA_SPRINT_4.md` para los pendientes de US10.
 
 ## 8. Aceptación
 
