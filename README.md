@@ -19,7 +19,7 @@ Sprints 0 a 3 completados según la documentación previa. Sprint 4 implementado
 | 1 | US1, US2, US3 | Registro del campesino, reporte con fotos, ubicación del cultivo |
 | 2 | US4, US5, US6 | Reportes pendientes, diagnóstico del profesional, estado del reporte |
 | 3 | US7, US8, US9 | Notificaciones, cierre de caso, panel de estadísticas |
-| 4 | US10 | Exportación de estadísticas filtradas a PDF y Excel (.xlsx); aceptación pendiente |
+| 4 | US10, US11 | Exportación PDF/Excel y consulta de diagnóstico propio; aceptación pendiente |
 
 Planeación y criterios: [Sprint 4](docs/SPRINT_4.md). Entrega y aceptación: [Acta del Sprint 4](docs/ACTA_SPRINT_4.md).
 
@@ -55,7 +55,7 @@ Para ver la **demo web** (pantallas de campesino y profesional, sobre la misma l
 python demo_web.py          # abrir http://localhost:8000
 ```
 
-El profesional puede filtrar las estadísticas por zona y tipo de plaga, pulsar **Filtrar** y usar **Descargar PDF** o **Descargar Excel**. Los filtros son coincidencias exactas sin distinguir mayúsculas; vacíos incluyen todos los reportes. La exportación incluye los cuatro estados, total, filtros y fecha UTC.
+El profesional puede filtrar las estadísticas por zona y tipo de plaga, pulsar **Filtrar** y usar **Descargar PDF** o **Descargar Excel**. El campesino ve en **Mis reportes** el diagnóstico, recomendación, profesional y fecha; si aún no existe, aparece un aviso de espera. El resultado sigue visible después del cierre. Los filtros son coincidencias exactas sin distinguir mayúsculas; vacíos incluyen todos los reportes. La exportación incluye los cuatro estados, total, filtros y fecha UTC.
 
 Usuarios de ejemplo: `carlos@finca.co` (campesino) y `laura@agro.co` (profesional), contraseña `clave1234`. Usa base de datos en memoria; al reiniciar vuelve a los datos de ejemplo.
 
@@ -87,7 +87,7 @@ python -m pytest -v         # con el nombre de cada prueba
 python -m pytest tests/test_us7_estados_notificaciones.py   # solo una historia
 ```
 
-Resultado esperado: `87 passed`. Las pruebas usan una base de datos en memoria, por lo que no afectan ningún dato real.
+Resultado esperado: `95 passed`. Las pruebas usan una base de datos en memoria, por lo que no afectan ningún dato real.
 
 > Ejecutar siempre `python -m pytest` desde la carpeta raíz del proyecto. Si se corre desde otra carpeta, Python no encuentra el paquete `app`.
 
@@ -113,7 +113,7 @@ Practicas-Proyecto/
 │   ├── usuarios.py          # US1  Registro e inicio de sesión
 │   ├── reportes.py          # US2, US3, US4, US6  Reportes, ubicación y listados
 │   ├── estados.py           # US7  Estados del reporte y notificación automática
-│   ├── diagnosticos.py      # US5, US8  Diagnóstico y cierre del caso
+│   ├── diagnosticos.py      # US5, US8, US11 Diagnóstico, cierre y consulta propia
 │   ├── notificaciones.py    # US7  Consulta y lectura de notificaciones
 │   ├── exportaciones.py     # US10 Exportación de estadísticas a PDF y Excel
 │   └── estadisticas.py      # US9  Conteo por estado, zona y tipo de plaga
@@ -129,7 +129,7 @@ Practicas-Proyecto/
 │   └── ACTA_EPS.md                      # Acta de Entrega Parcial de Software
 ├── demo.py                  # Recorrido de demostración en consola
 ├── demo_web.py              # Demo web (http.server) sobre la lógica de app/
-├── scripts/verificar_sprint_4.py # Verificación HTTP real de US10
+├── scripts/verificar_sprint_4.py # Verificación HTTP real de US10 y US11
 ├── requirements.txt / pytest.ini
 └── .gitignore
 ```

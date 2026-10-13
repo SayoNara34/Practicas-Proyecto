@@ -92,6 +92,7 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 - Para cada sprint nuevo, conservar objetivo, criterios, backlog, evidencias y acta en `docs/`; no registrar reuniones ni aceptación sin evidencia.
 - Las exportaciones devuelven bytes desde `app/`; la capa HTTP agrega el tipo MIME y el encabezado de descarga. Se reutilizan los conteos del panel.
 - PDF escapa los textos de filtros y Excel los conserva como texto, sin ejecutar fórmulas. Los formatos, filtros y permisos llevan pruebas.
+- Toda consulta de diagnóstico del campesino valida el rol y la propiedad del reporte en `app/`; la presentación escapa el texto y conserva el resultado después del cierre.
 - El manual PDF conserva su diseño y se amplía cuando cambia el uso. Su actualización debe revisarse visualmente.
 
 ## 12. Lista de revisión rápida
@@ -111,4 +112,4 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 |---|---|---|
 | 1.0 | 29 de septiembre de 2026 | Versión inicial (secciones 1 a 10 originales) |
 | 1.1 | 30 de septiembre de 2026 | Se agregan la sección 10 (interfaz web de demostración) y la 11 (documentos de entrega); la lista de revisión pasa a ser la sección 12 y suma dos ítems |
-| 1.2 | 13 de octubre de 2026 | Se documentan entregables de sprint, exportaciones y actualización del manual para US10 |
+| 1.2 | 13 de octubre de 2026 | Se documentan entregables de sprint, exportaciones y actualización del manual para US10 y US11 |

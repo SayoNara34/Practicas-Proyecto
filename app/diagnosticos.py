@@ -1,9 +1,9 @@
-"""US5 y US8 - Diagnóstico y cierre de casos por el profesional."""
+"""US5, US8 y US11 - Diagnóstico, cierre y consulta de resultados."""
 import sqlite3
 
 from . import usuarios
 from .db import ahora_iso
-from .errores import ErrorTransicion, ErrorValidacion
+from .errores import ErrorPermiso, ErrorTransicion, ErrorValidacion
 from .estados import cambiar_estado
 from .reportes import obtener_reporte
 
@@ -53,3 +53,29 @@ def marcar_resuelto(conn: sqlite3.Connection, reporte_id: int, profesional_id: i
         raise ErrorTransicion("Solo se puede resolver un reporte diagnosticado.")
     cambiar_estado(conn, reporte_id, "Resuelto")
     conn.commit()
+
+
+def consultar_diagnostico(conn: sqlite3.Connection, reporte_id: int,
+                          campesino_id: int) -> sqlite3.Row | None:
+    """Consulta el diagnóstico de un reporte propio, incluso después del cierre (US11).
+
+    Args:
+        conn: Conexión a SQLite.
+        reporte_id: Reporte que desea consultar el campesino.
+        campesino_id: Usuario dueño del reporte.
+
+    Returns:
+        Diagnóstico, recomendación, profesional y fecha; None si aún no existe.
+
+    Raises:
+        ErrorPermiso: El usuario no es campesino o el reporte no le pertenece.
+        ErrorNoEncontrado: El usuario o el reporte no existe.
+    """
+    usuarios.exigir_rol(conn, campesino_id, "campesino")
+    reporte = obtener_reporte(conn, reporte_id)
+    if reporte["usuario_id"] != campesino_id:
+        raise ErrorPermiso("Solo puedes consultar el diagnóstico de tus propios reportes.")
+    return conn.execute(
+        "SELECT d.texto, d.recomendacion, d.creado_en, u.nombre AS profesional "
+        "FROM diagnostico d JOIN usuario u ON u.id = d.profesional_id "
+        "WHERE d.reporte_id = ? ORDER BY d.id DESC LIMIT 1", (reporte_id,)).fetchone()

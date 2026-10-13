@@ -23,14 +23,14 @@ Permitir que campesinos del Llano Oriental reporten afectaciones en sus cultivos
 
 ## 3. Alcance de esta entrega
 
-Se documentan las historias US1 a US9 de la entrega previa y el incremento técnico US10 del Sprint 4, con lógica de negocio, base de datos, pruebas y dos formas de demostración.
+Se documentan las historias US1 a US9 de la entrega previa y el incremento técnico US10 y US11 del Sprint 4, con lógica de negocio, base de datos, pruebas y dos formas de demostración.
 
 | Sprint | Historias | Funcionalidad entregada |
 |---|---|---|
 | 1 | US1, US2, US3 | Registro e inicio de sesión del campesino; reporte con fotos; ubicación del cultivo (dirección o coordenadas) |
 | 2 | US4, US5, US6 | Reportes pendientes para el profesional; diagnóstico con recomendación; estado del reporte para el campesino |
 | 3 | US7, US8, US9 | Notificaciones por cambio de estado; cierre del caso; estadísticas por estado, zona y tipo de plaga |
-| 4 | US10 | Exportación a PDF y Excel de estadísticas filtradas; aceptación pendiente |
+| 4 | US10, US11 | Exportación PDF/Excel y consulta de diagnóstico propio; aceptación pendiente |
 
 **Ciclo de vida del reporte:** Reportado → En revisión → Diagnosticado → Resuelto (también Reportado → Diagnosticado). No se permiten otros saltos.
 
@@ -38,7 +38,7 @@ Se documentan las historias US1 a US9 de la entrega previa y el incremento técn
 
 | Entregable | Ubicación |
 |---|---|
-| Lógica de negocio (10 historias) | `app/` |
+| Lógica de negocio (11 historias) | `app/` |
 | Esquema de base de datos (SQLite) | `schema.sql` |
 | Pruebas unitarias | `tests/` |
 | Recorrido de demostración en consola | `demo.py` |
@@ -55,7 +55,7 @@ Cada cifra puede reproducirse desde la carpeta raíz del proyecto.
 
 | Evidencia | Comando | Resultado esperado |
 |---|---|---|
-| Pruebas unitarias | `python -m pytest` | `87 passed` |
+| Pruebas unitarias | `python -m pytest` | `95 passed` |
 | Descarga PDF y Excel | `python scripts/verificar_sprint_4.py` | Archivos válidos, total 1 con filtros, acceso de campesino rechazado |
 | Flujo de extremo a extremo | `python demo.py` | Registro → reporte → diagnóstico → notificación → cierre → estadísticas, sin errores |
 | Demo web | `python demo_web.py` y abrir `http://localhost:8000` | Pantallas de campesino y profesional operando sobre la misma lógica |
@@ -77,7 +77,7 @@ Los criterios 3 a 6 se comprueban con los comandos de la sección 4. Los criteri
 | 1 | Criterios de aceptación | Por confirmar | Product Backlog |
 | 2 | Código integrado y revisado | Por confirmar | Historial de revisiones del repositorio |
 | 3 | Estándar de código | Cumple | `docs/ESTANDAR_DOCUMENTACION.md`, lista de revisión (sección 12) |
-| 4 | Pruebas unitarias | Cumple | `python -m pytest` → 87 passed |
+| 4 | Pruebas unitarias | Cumple | `python -m pytest` → 95 passed |
 | 5 | Prueba de flujo | Cumple | `python demo.py` y demo web |
 | 6 | Validaciones y errores | Cumple | Excepciones de dominio con mensajes para el usuario, cubiertas por pruebas |
 | 7 | Sin defectos críticos | Por confirmar | Lista de defectos abiertos del equipo |
@@ -93,11 +93,11 @@ Los criterios 3 a 6 se comprueban con los comandos de la sección 4. Los criteri
 
 ## 7. Próximos pasos
 
-- Sprint 4: revisar y aceptar US10, confirmar la ampliación del DoD e integrar tras revisión de otro integrante.
+- Sprint 4: revisar y aceptar US10 y US11, confirmar la ampliación del DoD e integrar tras revisión de otro integrante.
 - Definir el stack de la interfaz web de producción y la carga real de fotos.
 - Actualizar este documento y el DoD si cambia el alcance.
 
-La actualización de esta acta no acredita una reunión, revisión o aceptación adicional. Consultar `ACTA_SPRINT_4.md` para los pendientes de US10.
+La actualización de esta acta no acredita una reunión, revisión o aceptación adicional. Consultar `ACTA_SPRINT_4.md` para los pendientes de US10 y US11.
 
 ## 8. Aceptación
 

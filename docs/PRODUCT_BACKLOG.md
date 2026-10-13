@@ -1,8 +1,8 @@
 # Product Backlog
 
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
-**Versión:** 1.0 — 13 de octubre de 2026  
-**Fuente:** estado documentado en el README para US1–US9; incremento técnico del Sprint 4 para US10.
+**Versión:** 1.1 — 13 de octubre de 2026  
+**Fuente:** estado documentado en el README para US1–US9; incremento técnico del Sprint 4 para US10 y US11.
 
 | Historia | Necesidad | Sprint | Estado |
 |---|---|---|---|
@@ -16,5 +16,6 @@
 | US8 | Cerrar caso | 3 | Completada según documentación previa |
 | US9 | Estadísticas por estado con filtros | 3 | Completada según documentación previa |
 | US10 | Exportar estadísticas a PDF y Excel | 4 | Implementada y probada; aceptación e integración pendientes |
+| US11 | Consultar diagnóstico y recomendación del reporte propio | 4 | Implementada y probada; aceptación e integración pendientes |
 
-US10 y sus criterios se detallan en [Sprint 4](SPRINT_4.md). Este registro hace visible el alcance del repositorio; no acredita una actualización en una herramienta externa del equipo. No se inventan estimaciones ni fechas históricas de aceptación. Prioridades, puntos y próximas historias deben acordarse con el Product Owner.
+US10, US11 y sus criterios se detallan en [Sprint 4](SPRINT_4.md). Este registro hace visible el alcance del repositorio; no acredita una actualización en una herramienta externa del equipo. No se inventan estimaciones ni fechas históricas de aceptación. Prioridades, puntos y próximas historias deben acordarse con el Product Owner.

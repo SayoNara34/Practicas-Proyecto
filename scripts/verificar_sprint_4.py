@@ -1,4 +1,4 @@
-"""US10 - Verifica el flujo de descarga contra un servidor HTTP real de la demo."""
+"""US10 y US11 - Verifica el flujo de descarga contra un servidor HTTP real de la demo."""
 import socket
 import subprocess
 import sys
@@ -6,7 +6,8 @@ import time
 from io import BytesIO
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.request import urlopen
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 from openpyxl import load_workbook
 from pypdf import PdfReader
@@ -55,7 +56,21 @@ def main() -> None:
             assert error.code == 400
         else:
             raise AssertionError("El campesino pudo exportar.")
+        with urlopen(base + "/panel?u=1") as respuesta:
+            assert "Aún no hay diagnóstico" in respuesta.read().decode()
+        formulario = urlencode(dict(u=2, r=1, texto="Sigatoka negra", recomendacion="Revisar hojas")).encode()
+        with urlopen(Request(base + "/diagnosticar", data=formulario)):
+            pass
+        with urlopen(base + "/panel?u=1") as respuesta:
+            texto = respuesta.read().decode()
+            assert "Sigatoka negra" in texto and "Revisar hojas" in texto and "Laura Gómez" in texto
+        with urlopen(Request(base + "/resolver", data=b"u=2&r=1")):
+            pass
+        with urlopen(base + "/panel?u=1") as respuesta:
+            texto = respuesta.read().decode()
+            assert "Resuelto" in texto and "Sigatoka negra" in texto and "Revisar hojas" in texto
         print("US10: panel filtrado, PDF y XLSX válidos (total 1), sin cambios y permisos verificados.")
+        print("US11: espera, diagnóstico, recomendación, profesional y consulta después del cierre verificados.")
     finally:
         proceso.terminate()
         proceso.wait(timeout=5)

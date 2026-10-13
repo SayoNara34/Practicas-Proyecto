@@ -1,4 +1,4 @@
-"""Demo web del producto (US1-US10) sobre la lógica de app/, con exportación a PDF y Excel.
+"""Demo web del producto (US1-US11) sobre la lógica de app/, con exportación a PDF y Excel.
 
 Uso:
     python demo_web.py        # abre http://localhost:8000
@@ -8,7 +8,7 @@ la sesión viaja en la URL (?u=id). Las fotos que sube el campesino (JPG o PNG) 
 en una carpeta temporal que se borra al cerrar la demo.
 
 Rutas: /login (US1), /reportar (US2, US3), /leida (US7), /revisar y /diagnosticar (US5),
-/exportar (US10), /resolver (US8), /panel (US4, US6, US9) y /fotos/<archivo> para mostrar las imágenes.
+/exportar (US10), /resolver (US8), /panel (US4, US6, US9, US11) y /fotos/<archivo> para mostrar las imágenes.
 """
 import atexit
 import html
@@ -97,12 +97,23 @@ def vista_login() -> str:
             'clave <b>clave1234</b></p></div>')
 
 
+def detalle_diagnostico(reporte_id: int, campesino_id: int) -> str:
+    """Muestra el resultado propio o un aviso de espera, con textos escapados (US11)."""
+    resultado = diagnosticos.consultar_diagnostico(CONN, reporte_id, campesino_id)
+    if resultado is None:
+        return "<p>Aún no hay diagnóstico para este reporte.</p>"
+    return (f'<p><b>Diagnóstico:</b> {html.escape(resultado["texto"])}<br>'
+            f'<b>Recomendación:</b> {html.escape(resultado["recomendacion"])}<br>'
+            f'<b>Profesional:</b> {html.escape(resultado["profesional"])}<br>'
+            f'<b>Fecha:</b> {html.escape(resultado["creado_en"])}</p>')
+
+
 def vista_campesino(u) -> str:
     uid = u["id"]
     filas = "".join(
         f'<div class="card">#{r["id"]} {html.escape(r["descripcion"])} — '
         f'<span class="tag">{r["estado"]}</span><br><small>{html.escape(r["ubicacion"])}</small>'
-        f'<br>{miniaturas(r["id"])}</div>'
+        f'<br>{miniaturas(r["id"])}{detalle_diagnostico(r["id"], uid)}</div>'
         for r in reportes.listar_mis_reportes(CONN, uid)) or "<p>Sin reportes.</p>"
     notas = "".join(
         f'<div class="card">{"🔔" if not n["leida"] else "✔"} {html.escape(n["mensaje"])}'
