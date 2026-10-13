@@ -2,7 +2,7 @@
 
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Aplica a:** todo el código Python y SQL del repositorio. Es parte del Definition of Done.  
-**Versión:** 1.2 – 13 de octubre de 2026 (ver [Historial de cambios](#historial-de-cambios))
+**Versión:** 1.3 – 13 de octubre de 2026 (ver [Historial de cambios](#historial-de-cambios))
 
 ## 1. Idioma y nombres
 
@@ -81,7 +81,9 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 - Los `ErrorDominio` se capturan en un solo lugar y su mensaje se muestra tal cual (sección 7); los demás errores no se ocultan.
 - Cada ruta (`/reportar`, `/diagnosticar`, …) se documenta en el docstring del módulo con la historia que ejercita.
 - El código de demostración usa base de datos en memoria y datos de ejemplo creados por una función (`sembrar`); no se suben archivos `.db` al repositorio.
-- La demo no es un entregable de producción: la sesión por URL y la ausencia de carga real de fotos se declaran como limitaciones en el Acta EPS.
+- La demo no es un entregable de producción: la sesión por URL, los datos en memoria y las fotos guardadas en una carpeta temporal se declaran como limitaciones en el Acta EPS. Los reportes de ejemplo solo incluyen nombres de fotos.
+- US10: `/exportar` entrega PDF o Excel (.xlsx) con los mismos filtros y conteos del panel. `app/exportaciones.py` valida el rol profesional, formato y longitud de los filtros; la capa HTTP agrega el tipo MIME, nombre de archivo y longitud del contenido.
+- US11: el panel del campesino muestra diagnóstico, recomendación, profesional y fecha. `consultar_diagnostico` en `app/diagnosticos.py` valida el rol y la propiedad del reporte; la vista muestra un aviso si no existe diagnóstico y conserva el resultado después del cierre.
 
 ## 11. Documentos de entrega
 
@@ -94,6 +96,24 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 - PDF escapa los textos de filtros y Excel los conserva como texto, sin ejecutar fórmulas. Los formatos, filtros y permisos llevan pruebas.
 - Toda consulta de diagnóstico del campesino valida el rol y la propiedad del reporte en `app/`; la presentación escapa el texto y conserva el resultado después del cierre.
 - El manual PDF conserva su diseño y se amplía cuando cambia el uso. Su actualización debe revisarse visualmente.
+- Las historias nuevas se agregan a la **tabla principal del manual**, además de sus instrucciones. Para el Sprint 4, US10 figura en la página 1 y su guía está en las páginas 6 y 7; US11 figura en la página 1 y su guía está en la página 8.
+- El alcance de la **primera página del DoD** incluye US1–US11 y Sprints 1–4. Se conserva la lista de diez criterios; una ampliación en un anexo no sustituye la actualización del alcance principal.
+- La fecha de reunión se registra cuando el equipo o el solicitante confirma su realización. La reunión del Sprint 4 se realizó el **13 de octubre de 2026**. La fecha no acredita por sí sola asistentes, decisiones de aceptación, firmas ni integración a la rama principal.
+
+**Trazabilidad del Sprint 4:**
+
+| Historia / entregable | Archivo | Verificación |
+|---|---|---|
+| US10 — Exportación PDF y Excel | `app/exportaciones.py`, `demo_web.py` | `python -m pytest tests/test_us10_exportaciones.py -q` → 18 passed |
+| US11 — Consulta de diagnóstico propio | `app/diagnosticos.py`, `demo_web.py` | `python -m pytest tests/test_us11_consulta_diagnostico.py -q` → 8 passed |
+| Regresión completa | `tests/` | `python -m pytest -q` → 95 passed |
+| Flujo HTTP de US10 y US11 | `scripts/verificar_sprint_4.py` | Descargas válidas, permisos y resultado visible antes y después del cierre |
+| Planeación y reunión | `docs/SPRINT_4.md`, `docs/ACTA_SPRINT_4.md` y sus versiones PDF | Objetivo, criterios, tareas y reunión del 13 de octubre de 2026 |
+| Backlog, pruebas y retrospectiva | `docs/PRODUCT_BACKLOG.md`, `docs/PLAN_PRUEBAS_SPRINT_4.md`, `docs/RETROSPECTIVA_SPRINT_4.md` | Estado de cada historia y pendientes de aceptación |
+| Manual de usuario | `docs/MANUAL_USUARIO_PLANTAS.pdf` | Tabla principal con US10 y US11; guías de descarga y consulta |
+| Definition of Done | `docs/DoD_Control_Plagas_Platano.pdf` | Alcance US1–US11 y Sprints 1–4 desde la primera página |
+
+Los resultados de pruebas corresponden a la verificación técnica del 13 de octubre de 2026. Deben volver a comprobarse si cambia el código. El estándar conserva sus doce secciones y su historial; no sustituye las actas ni el manual.
 
 ## 12. Lista de revisión rápida
 
@@ -105,6 +125,9 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 - [ ] Pruebas nuevas o actualizadas y `python -m pytest` en verde
 - [ ] Código web sin reglas de negocio y con texto escapado (sección 10)
 - [ ] README y documentos de entrega actualizados (sección 11)
+- [ ] Historias nuevas incluidas en la tabla principal del manual y en sus guías
+- [ ] Alcance principal del DoD coherente con el sprint y el backlog
+- [ ] Fecha de reunión y aceptación registradas por separado, sin atribuir acuerdos no confirmados
 
 ## Historial de cambios
 
@@ -113,3 +136,4 @@ Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` po
 | 1.0 | 29 de septiembre de 2026 | Versión inicial (secciones 1 a 10 originales) |
 | 1.1 | 30 de septiembre de 2026 | Se agregan la sección 10 (interfaz web de demostración) y la 11 (documentos de entrega); la lista de revisión pasa a ser la sección 12 y suma dos ítems |
 | 1.2 | 13 de octubre de 2026 | Se documentan entregables de sprint, exportaciones y actualización del manual para US10 y US11 |
+| 1.3 | 13 de octubre de 2026 | Se agrega trazabilidad de US10 y US11, verificación de 95 pruebas, actualización del alcance principal del manual y DoD y registro de la reunión; se corrige la limitación de fotos temporales |
