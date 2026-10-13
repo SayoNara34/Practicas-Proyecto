@@ -3,7 +3,7 @@
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Materia:** Prácticas Aplicadas — Politécnico Grancolombiano, Tecnología en Desarrollo de Software  
 **Fecha de elaboración:** 13 de octubre de 2026  
-**Versión:** 1.1
+**Versión:** 1.2
 
 ## 1. Datos generales
 
@@ -13,8 +13,8 @@
 | **Scrum Master** | Nicolás Abril Cárdenas |
 | **Product Owner** | Juan Miguel Parra Garzón |
 | **Equipo de desarrollo** | Santiago Cortez Mojica |
-| **Periodo del sprint** | Por acordar con el equipo |
-| **Estado** | Incremento implementado y probado; revisión y aceptación pendientes |
+| **Periodo del sprint** | Inicio por confirmar; reunión realizada el 13 de octubre de 2026 |
+| **Estado** | Incremento implementado y probado; reunión realizada el 13 de octubre de 2026; aceptación por completar |
 
 ## 2. Objetivo del sprint
 
@@ -65,7 +65,7 @@ El Sprint 4 contiene dos historias. No existe un mínimo Scrum de historias por 
 | S4-03 | Agregar filtros y descargas al panel | `demo_web.py` | Implementado |
 | S4-04 | Probar archivos, permisos, filtros y respuesta HTTP | `tests/test_us10_exportaciones.py` | 18 pruebas pasan |
 | S4-05 | Actualizar instalación y documentación | README, estándar, EPS y manual PDF | Actualizado |
-| S4-06 | Preparar evidencias y cierre | Acta, plan de pruebas y retrospectiva | Elaborado; reunión pendiente |
+| S4-06 | Preparar evidencias y cierre | Acta, plan de pruebas y retrospectiva | Elaborado; reunión realizada el 13 de octubre de 2026 |
 | S4-07 | Consultar diagnóstico propio y mostrarlo en el panel | `app/diagnosticos.py`, `demo_web.py` | Implementado |
 | S4-08 | Probar acceso, resultado y cierre de US11 | `tests/test_us11_consulta_diagnostico.py` | 8 pruebas pasan |
 
@@ -77,12 +77,14 @@ Se agrega US10 sobre las estadísticas de US9 y US11 sobre los diagnósticos de 
 
 ## 6. Definition of Done
 
-Se mantiene la lista de diez criterios del DoD. La ampliación a US10 y US11 se documenta en su anexo para revisión del equipo. La evidencia técnica está en `PLAN_PRUEBAS_SPRINT_4.md`; integración a main con revisión de otro integrante, ausencia de defectos críticos confirmada por el equipo, actualización del backlog oficial y aceptación en Sprint Review siguen pendientes. US10 y US11 no se declaran formalmente Completada hasta cumplirlos. La suite completa contiene 95 pruebas: 69 anteriores, 18 de US10 y 8 de US11.
+Se mantiene la lista de diez criterios del DoD. La ampliación a US10 y US11 se documenta en su anexo para revisión del equipo. La evidencia técnica está en `PLAN_PRUEBAS_SPRINT_4.md`; integración a main con revisión de otro integrante, ausencia de defectos críticos confirmada por el equipo, actualización del backlog oficial y aceptación en Sprint Review siguen pendientes. US10 y US11 no se declaran formalmente Completadas hasta cumplirlos. La suite completa contiene 95 pruebas: 69 anteriores, 18 de US10 y 8 de US11.
 
 ## 7. Riesgos y fuera de alcance
 
 La demo mantiene sesión por URL, datos en memoria y fotos temporales. Las descargas son resúmenes por estado, no informes individuales ni evidencia de producción. No se incluyen API definitiva, autenticación de producción, persistencia de fotos ni envío de archivos por correo.
 
 ## 8. Sprint Review y retrospectiva
+
+La reunión del Sprint 4 se realizó el 13 de octubre de 2026, según confirmación del solicitante. Sus asistentes, resultados de aceptación y acuerdos específicos quedan por completar en el acta.
 
 Guion: iniciar como Laura, consultar estadísticas, filtrar por Acacías y Picudo negro, descargar ambos formatos, comprobar el total, probar una zona sin coincidencias y verificar que Carlos no pueda exportar. Después, diagnosticar un reporte como Laura, consultar el resultado como Carlos, cerrar el caso y verificar que el resultado permanece. Registrar aceptación de cada historia y observaciones en `ACTA_SPRINT_4.md`; registrar acuerdos de mejora en `RETROSPECTIVA_SPRINT_4.md` después de la reunión.

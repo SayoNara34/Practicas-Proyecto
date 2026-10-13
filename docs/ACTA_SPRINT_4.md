@@ -3,8 +3,8 @@
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Materia:** Prácticas Aplicadas — Politécnico Grancolombiano, Tecnología en Desarrollo de Software  
 **Fecha de elaboración:** 13 de octubre de 2026  
-**Versión del acta:** 1.1  
-**Estado:** Preparada para Sprint Review; pendiente de aceptación y firmas
+**Versión del acta:** 1.2  
+**Estado:** Reunión realizada el 13 de octubre de 2026; resultados de aceptación y firmas por completar
 
 ## 1. Datos generales
 
@@ -15,8 +15,11 @@
 | **Product Owner** | Juan Miguel Parra Garzón |
 | **Equipo de desarrollo** | Santiago Cortez Mojica |
 | **Repositorio** | https://github.com/SayoNara34/Practicas-Proyecto |
-| **Periodo del sprint / fecha de reunión** | Por confirmar por el equipo |
-| **Asistentes reales** | Por registrar en la reunión |
+| **Fecha de reunión** | 13 de octubre de 2026 |
+| **Periodo del sprint** | Fecha de inicio por confirmar; reunión realizada el 13 de octubre de 2026 |
+| **Asistentes reales** | Por completar por el equipo |
+
+La realización de la reunión el 13 de octubre de 2026 fue confirmada por el solicitante. No se suministraron hora, modalidad, listado de asistentes ni decisiones específicas; estos campos quedan por completar.
 
 ## 2. Objetivo y alcance
 
@@ -26,14 +29,14 @@ Se preparan dos historias: US10 exporta las estadísticas del profesional a PDF 
 
 | Entregable | Ubicación |
 |---|---|
-| Planeación, US10, criterios y Sprint Backlog | `docs/SPRINT_4.md` |
+| Planeación, US10 y US11, criterios y Sprint Backlog | `docs/SPRINT_4.md` |
 | Exportación PDF y Excel | `app/exportaciones.py` |
 | Panel con filtros y descargas | `demo_web.py` |
 | Pruebas de US10 | `tests/test_us10_exportaciones.py` |
 | Consulta de diagnóstico propio y pruebas de US11 | `app/diagnosticos.py`, `tests/test_us11_consulta_diagnostico.py` |
 | Evidencias y guion de aceptación | `docs/PLAN_PRUEBAS_SPRINT_4.md` |
 | Backlog documental | `docs/PRODUCT_BACKLOG.md` |
-| Retrospectiva para completar en reunión | `docs/RETROSPECTIVA_SPRINT_4.md` |
+| Registro de retrospectiva y seguimiento | `docs/RETROSPECTIVA_SPRINT_4.md` |
 | Documentación y manual actualizados | README, estándar, EPS, DoD y manual PDF en `docs/` |
 
 ## 4. Evidencias verificables
@@ -61,7 +64,7 @@ Verificación técnica realizada el 13 de octubre de 2026. Ejecutar desde la ra�
 | 6 | Validaciones y errores | Cumple técnicamente | Permisos, formato, longitud y consulta propia cubiertos |
 | 7 | Sin defectos críticos | Por confirmar por el equipo | No hubo fallos en las verificaciones ejecutadas; no sustituye el registro de defectos |
 | 8 | Backlog actualizado | Propuesta documental disponible | Ratificar en el backlog oficial |
-| 9 | Sprint Review | Pendiente | Reunión y aceptación del Product Owner |
+| 9 | Sprint Review | Reunión registrada; aceptación por completar | Reunión del 13 de octubre de 2026 confirmada por el solicitante; falta registrar el resultado del Product Owner |
 | 10 | Documentación | Cumple técnicamente | README, EPS, estándar, DoD y manual actualizados |
 
 ## 6. Limitaciones conocidas
@@ -70,7 +73,7 @@ La sesión por URL no ofrece seguridad de producción. Los datos se pierden al r
 
 ## 7. Acuerdos y próximos pasos
 
-Propuestas para la reunión: ratificar US10 y US11 y el periodo; revisar la rama de entrega; ejecutar el guion; registrar defectos, aceptación o ajustes; confirmar el alcance actualizado del DoD; completar retrospectiva e integrar después de revisión. No son acuerdos ya aprobados.
+Seguimiento después de la reunión del 13 de octubre de 2026: ratificar US10 y US11 y el periodo; revisar la rama de entrega; ejecutar el guion; registrar defectos, aceptación o ajustes; confirmar el alcance actualizado del DoD; completar retrospectiva e integrar después de revisión. La fecha de reunión está confirmada; estas acciones son pendientes propuestos y no decisiones atribuidas al equipo.
 
 ## 8. Aceptación
 
@@ -83,4 +86,4 @@ Propuestas para la reunión: ratificar US10 y US11 y el periodo; revisar la rama
 
 **Resultado US10 (aceptado / requiere ajustes):** Por registrar.  
 **Resultado US11 (aceptado / requiere ajustes):** Por registrar.  
-**Observaciones:** Por registrar durante la reunión.
+**Observaciones de la reunión:** Por completar por el equipo.

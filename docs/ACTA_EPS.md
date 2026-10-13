@@ -97,7 +97,7 @@ Los criterios 3 a 6 se comprueban con los comandos de la sección 4. Los criteri
 - Definir el stack de la interfaz web de producción y la carga real de fotos.
 - Actualizar este documento y el DoD si cambia el alcance.
 
-La actualización de esta acta no acredita una reunión, revisión o aceptación adicional. Consultar `ACTA_SPRINT_4.md` para los pendientes de US10 y US11.
+La actualización de esta acta registra la reunión del Sprint 4 realizada el 13 de octubre de 2026, confirmada por el solicitante. La revisión técnica del equipo, las decisiones de aceptación y las firmas siguen por completar. Consultar `ACTA_SPRINT_4.md` para los pendientes de US10 y US11.
 
 ## 8. Aceptación
 

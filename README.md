@@ -12,7 +12,7 @@ Proyecto académico — Politécnico Grancolombiano, Tecnología en Desarrollo d
 
 ## Estado del proyecto
 
-Sprints 0 a 3 completados según la documentación previa. Sprint 4 implementado y probado; revisión, integración y aceptación del equipo pendientes:
+Sprints 0 a 3 completados según la documentación previa. Sprint 4 implementado y probado; reunión realizada el 13 de octubre de 2026; integración y aceptación formal por completar:
 
 | Sprint | Historias | Contenido |
 |---|---|---|

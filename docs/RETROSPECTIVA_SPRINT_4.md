@@ -2,11 +2,11 @@
 
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Versión:** 1.1 — 13 de octubre de 2026  
-**Estado:** Guía preparada; reunión pendiente.
+**Estado:** Reunión del Sprint 4 realizada el 13 de octubre de 2026; conclusiones de retrospectiva por completar.
 
 ## 1. Datos de la reunión
 
-Fecha, asistentes y facilitador efectivo: por registrar por el equipo.
+**Fecha de reunión:** 13 de octubre de 2026 (confirmada por el solicitante). Asistentes, hora, modalidad y facilitador efectivo: por completar por el equipo. La confirmación de la reunión no acredita por sí sola las conclusiones de una retrospectiva.
 
 ## 2. Hechos para discutir
 
@@ -29,4 +29,4 @@ Fecha, asistentes y facilitador efectivo: por registrar por el equipo.
 
 ## 5. Acuerdos reales y seguimiento
 
-Por registrar durante la reunión. Las propuestas de este documento no representan declaraciones ni compromisos ya asumidos por los integrantes.
+Por completar en el registro de la reunión del 13 de octubre de 2026. Las propuestas de este documento no representan declaraciones ni compromisos ya asumidos por los integrantes.
