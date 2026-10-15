@@ -43,6 +43,7 @@ python -m venv .venv
 # source .venv/bin/activate     # Linux / macOS
 
 python -m pip install -r requirements.txt
+python -m pytest                #95 passed
 ```
 
 ## Cómo correr el proyecto
@@ -106,35 +107,40 @@ El sistema está organizado en capas simples, cada archivo con una sola responsa
 ```
 Practicas-Proyecto/
 ├── README.md
-├── schema.sql               # Tablas: usuario, reporte, foto, diagnostico, notificacion
-├── app/                     # Lógica de negocio
-│   ├── db.py                # Conexión a SQLite y creación de tablas
-│   ├── errores.py           # Excepciones de dominio
-│   ├── usuarios.py          # US1  Registro e inicio de sesión
-│   ├── reportes.py          # US2, US3, US4, US6  Reportes, ubicación y listados
-│   ├── estados.py           # US7  Estados del reporte y notificación automática
-│   ├── diagnosticos.py      # US5, US8, US11 Diagnóstico, cierre y consulta propia
-│   ├── notificaciones.py    # US7  Consulta y lectura de notificaciones
-│   ├── exportaciones.py     # US10 Exportación de estadísticas a PDF y Excel
-│   └── estadisticas.py      # US9  Conteo por estado, zona y tipo de plaga
-├── tests/                   # Pruebas unitarias con pytest, una por área
-├── docs/                    # Documentación del equipo
+├── schema.sql                  # Tablas: usuario, reporte, foto, diagnostico, notificacion
+├── app/                        # Lógica de negocio
+│   ├── db.py                   # Conexión a SQLite y creación de tablas
+│   ├── errores.py              # Excepciones de dominio
+│   ├── usuarios.py             # US1  Registro e inicio de sesión
+│   ├── reportes.py             # US2, US3, US4, US6  Reportes, ubicación y listados
+│   ├── estados.py              # US7  Estados del reporte y notificación automática
+│   ├── diagnosticos.py         # US5, US8, US11  Diagnóstico, cierre y consulta propia
+│   ├── notificaciones.py       # US7  Consulta y lectura de notificaciones
+│   ├── estadisticas.py         # US9  Conteo por estado, zona y tipo de plaga
+│   └── exportaciones.py        # US10 Exportación de estadísticas a PDF y Excel
+├── tests/                      # Pruebas unitarias con pytest, una por área
+├── docs/                       # Documentación del equipo
+│   ├── Diagramas/              # Casos de uso, clases, estados, secuencia y paquetes
+│   ├── Actas/                  # Dailys, sprints y retrospectivas del equipo
 │   ├── DoD_Control_Plagas_Platano.pdf   # Definition of Done
 │   ├── ESTANDAR_DOCUMENTACION.md        # Estándar de comentarios y docstrings (v1.1)
-│   ├── MANUAL_USUARIO_PLANTAS.pdf      # Manual de usuario, ampliado para US10
-│   ├── SPRINT_4.md / ACTA_SPRINT_4.md   # Planeación y acta del Sprint 4
-│   ├── PRODUCT_BACKLOG.md             # Estado documental de las historias
-│   ├── PLAN_PRUEBAS_SPRINT_4.md        # Evidencias y guion de aceptación
-│   ├── RETROSPECTIVA_SPRINT_4.md        # Guía para la reunión del equipo
-│   └── ACTA_EPS.md                      # Acta de Entrega Parcial de Software
-├── demo.py                  # Recorrido de demostración en consola
-├── demo_web.py              # Demo web (http.server) sobre la lógica de app/
-├── scripts/verificar_sprint_4.py # Verificación HTTP real de US10 y US11
+│   ├── MANUAL_USUARIO_PLANTAS.pdf       # Manual de usuario, ampliado para US10 y US11
+│   ├── Product_Backlog.xlsx             # Product Backlog con el avance por sprint
+│   ├── SPRINT_4.pdf                     # Planeación del Sprint 4
+│   ├── ACTA_SPRINT_4.pdf                # Acta del Sprint 4
+│   ├── ACTA_EPS.md                      # Acta de Entrega Parcial de Software
+│   └── REVIEW SPRINT.txt                # Enlace al tablero Miro de la Sprint Review
+├── scripts/
+│   └── verificar_sprint_4.py   # Verificación HTTP real de US10 y US11
+├── demo.py                     # Recorrido de demostración en consola
+├── demo_web.py                 # Demo web (http.server) sobre la lógica de app/
 ├── requirements.txt / pytest.ini
 └── .gitignore
 ```
 
-**Roles.** Hay dos: *campesino* (reporta y consulta sus reportes y notificaciones) y *profesional* (ve pendientes, diagnostica, cierra casos y consulta estadísticas). Cada función valida el rol antes de actuar.
+**Capas.** La presentación (`demo_web.py`, `demo.py`) solo llama a los módulos de `app/`; no contiene reglas de negocio. Dentro de `app/` las dependencias van hacia abajo: `diagnosticos` usa `estados`, `reportes` y `usuarios`; `estados` usa `reportes`; `reportes` usa `usuarios`; `exportaciones` usa `estadisticas`; y casi todos comparten `db` (conexión) y `errores` (excepciones).
+
+**Roles.** Hay dos: *campesino* (reporta, consulta sus reportes, notificaciones y diagnóstico) y *profesional* (ve pendientes, diagnostica, cierra casos, consulta y exporta estadísticas). Las funciones que dependen del rol lo validan antes de actuar (`usuarios.exigir_rol`).
 
 **Ciclo de vida del reporte.** Es la regla central del sistema:
 
@@ -142,8 +148,8 @@ Practicas-Proyecto/
 Reportado ──► En revisión ──► Diagnosticado ──► Resuelto
     └──────────────────────────►┘
 ```
-
 Un reporte también puede pasar directo de "Reportado" a "Diagnosticado". No se permiten otros saltos, y cada cambio válido genera una notificación para el campesino dueño del reporte (`estados.py`).
+
 
 **Base de datos.** SQLite mediante el módulo estándar `sqlite3`, con consultas parametrizadas. Las contraseñas se guardan con PBKDF2 y sal, nunca en texto plano.
 
