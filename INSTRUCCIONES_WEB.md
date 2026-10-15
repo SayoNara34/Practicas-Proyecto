@@ -182,8 +182,5 @@ Desde el teléfono abre `http://IP-LOCAL-DEL-COMPUTADOR:8000`. El computador deb
 | No puedo crear una cuenta profesional desde la página | Es intencional. Se crea mediante `gestionar.py crear-profesional`. |
 | Parece que los registros se perdieron | Comprueba que arrancaste `ejecutar.py` desde la misma instalación y con el mismo directorio de datos; las demos anteriores usan memoria. |
 
-## 12. Alcance de la entrega
-
-Es una versión funcional para presentar y comprobar localmente: persiste la información y separa las interfaces y los permisos. Utiliza Waitress, sin depuración, sesiones revocables, CSRF y validación real de imágenes. No pretende ser una entidad oficial del Gobierno ni diagnosticar automáticamente.
 
 Para habilitar un servicio público con datos reales se debe configurar un alojamiento Python con disco persistente, HTTPS, respaldos y los datos/canal del responsable de privacidad. No se han configurado dominio, correo transaccional, verificación documental ni publicación en Internet. El diagnóstico lo registra un profesional; la creación de su cuenta no acredita una validación de credenciales profesionales.
