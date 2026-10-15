@@ -2,7 +2,7 @@
 
 **Proyecto:** Sistema Web Control de Plagas en Plátano  
 **Aplica a:** todo el código Python y SQL del repositorio. Es parte del Definition of Done.  
-**Versión:** 1.3 – 13 de octubre de 2026 (ver [Historial de cambios](#historial-de-cambios))
+**Versión:** 1.4 – aplicación web persistente (ver [Historial de cambios](#historial-de-cambios))
 
 ## 1. Idioma y nombres
 
@@ -72,18 +72,27 @@ Todos los parámetros y retornos de funciones públicas llevan anotaciones (`usu
 
 Formato: `US<N>: qué se hizo`, en presente e imperativo, por ejemplo `US9: filtrar estadísticas por zona`.
 
-## 10. Interfaz web de demostración
+## 10. Capa de presentación web y demostraciones
 
-Aplica a `demo_web.py` y a cualquier código que exponga la lógica de `app/` por HTTP.
+Aplica a `web/`, `ejecutar.py`, `demo_web.py` y a cualquier código que exponga la lógica de `app/` por HTTP. Las convenciones siguientes distinguen la aplicación persistente de las demos históricas.
 
 - La capa web **no contiene reglas de negocio**: solo lee datos del formulario, llama a una función de `app/` y muestra el resultado. Si una regla falta, se agrega en `app/` con su prueba, nunca en el manejador.
-- Todo texto que venga del usuario o de la base de datos se escapa con `html.escape` antes de ponerse en el HTML.
+- Todo texto del usuario o la base se escapa: Jinja mantiene el escape automático en `web/templates/`; la demo manual usa `html.escape`. No se usa `|safe` para texto de usuarios ni `innerHTML` con nombres o datos de formularios.
 - Los `ErrorDominio` se capturan en un solo lugar y su mensaje se muestra tal cual (sección 7); los demás errores no se ocultan.
 - Cada ruta (`/reportar`, `/diagnosticar`, …) se documenta en el docstring del módulo con la historia que ejercita.
-- El código de demostración usa base de datos en memoria y datos de ejemplo creados por una función (`sembrar`); no se suben archivos `.db` al repositorio.
+- Las demos usan memoria y datos de ejemplo; la nueva web usa SQLite y fotos persistentes en `instance/`, excluida de Git junto a claves y archivos auxiliares. No se distribuyen registros de usuarios ni contraseñas predeterminadas.
 - La demo no es un entregable de producción: la sesión por URL, los datos en memoria y las fotos guardadas en una carpeta temporal se declaran como limitaciones en el Acta EPS. Los reportes de ejemplo solo incluyen nombres de fotos.
 - US10: `/exportar` entrega PDF o Excel (.xlsx) con los mismos filtros y conteos del panel. `app/exportaciones.py` valida el rol profesional, formato y longitud de los filtros; la capa HTTP agrega el tipo MIME, nombre de archivo y longitud del contenido.
 - US11: el panel del campesino muestra diagnóstico, recomendación, profesional y fecha. `consultar_diagnostico` en `app/diagnosticos.py` valida el rol y la propiedad del reporte; la vista muestra un aviso si no existe diagnóstico y conserva el resultado después del cierre.
+
+### Aplicación persistente
+
+- `INSTRUCCIONES_WEB.md` es el manual de instalación y uso de la nueva web. El PDF del manual de la demo se conserva como documento histórico y no debe presentarse como la guía de las pantallas nuevas.
+- Los formularios usan CSRF. El usuario se resuelve desde una sesión revocable, nunca de un parámetro de URL. Registro público con rol campesino fijado en el servidor; creación profesional mediante comando local.
+- Las imágenes se validan por contenido, cantidad, tamaño y dimensiones, se normalizan y se sirven con autorización de rol/propiedad. La carpeta privada no se monta como recurso estático.
+- La creación de usuario y perfil es transaccional. Se preserva la compatibilidad con las tablas y hashes anteriores. No se borran datos durante la inicialización.
+- Recursos visuales y fuentes locales; sin emojis ni símbolos de afiliación oficial. Las animaciones respetan movimiento reducido y la funcionalidad dispone de validación del servidor.
+- Las pruebas web mantienen CSRF activo y usan base/carpetas temporales. Se informa por separado la verificación funcional y la inspección visual en navegador.
 
 ## 11. Documentos de entrega
 
@@ -137,3 +146,5 @@ Los resultados de pruebas corresponden a la verificación técnica del 13 de oct
 | 1.1 | 30 de septiembre de 2026 | Se agregan la sección 10 (interfaz web de demostración) y la 11 (documentos de entrega); la lista de revisión pasa a ser la sección 12 y suma dos ítems |
 | 1.2 | 13 de octubre de 2026 | Se documentan entregables de sprint, exportaciones y actualización del manual para US10 y US11 |
 | 1.3 | 13 de octubre de 2026 | Se agrega trazabilidad de US10 y US11, verificación de 95 pruebas, actualización del alcance principal del manual y DoD y registro de la reunión; se corrige la limitación de fotos temporales |
+
+| 1.4 | Entrega web persistente | Se documentan Flask/Jinja, sesiones revocables, perfiles, evidencias privadas, manual Markdown vigente y conservación de los documentos históricos de la demo. |

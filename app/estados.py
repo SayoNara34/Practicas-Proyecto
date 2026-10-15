@@ -16,7 +16,7 @@ TRANSICIONES = {
 
 
 def cambiar_estado(conn: sqlite3.Connection, reporte_id: int, nuevo_estado: str,
-                   ahora: str | None = None) -> None:
+                   ahora: str | None = None, actor_id: int | None = None) -> None:
     """Cambia el estado de un reporte y notifica al campesino (US7).
 
     No hace commit: quien la llama confirma la transacción.
@@ -34,6 +34,8 @@ def cambiar_estado(conn: sqlite3.Connection, reporte_id: int, nuevo_estado: str,
     marca = ahora or ahora_iso()
     conn.execute("UPDATE reporte SET estado = ?, actualizado_en = ? WHERE id = ?",
                  (nuevo_estado, marca, reporte_id))
+    conn.execute("INSERT INTO evento_reporte (reporte_id, estado, actor_id, creado_en) "
+                 "VALUES (?, ?, ?, ?)", (reporte_id, nuevo_estado, actor_id, marca))
     conn.execute(
         "INSERT INTO notificacion (usuario_id, reporte_id, mensaje, creado_en) "
         "VALUES (?, ?, ?, ?)",

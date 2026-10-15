@@ -20,10 +20,10 @@ def reportes_por_estado(conn: sqlite3.Connection, profesional_id: int,
     sql = "SELECT estado, COUNT(*) AS total FROM reporte WHERE 1=1"
     params: list[str] = []
     if zona:
-        sql += " AND zona = ? COLLATE NOCASE"
+        sql += " AND CASEFOLD(zona) = CASEFOLD(?)"
         params.append(zona.strip())
     if tipo_plaga:
-        sql += " AND tipo_plaga = ? COLLATE NOCASE"
+        sql += " AND CASEFOLD(tipo_plaga) = CASEFOLD(?)"
         params.append(tipo_plaga.strip())
     sql += " GROUP BY estado"
     conteo = {e: 0 for e in ESTADOS}

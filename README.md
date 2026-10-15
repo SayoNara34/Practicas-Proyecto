@@ -1,164 +1,104 @@
-# Sistema Web Control de Plagas en Plátano
+# Savia · Control de plagas en plátano
 
-Aplicación para que campesinos del Llano Oriental reporten afectaciones en sus cultivos de plátano con fotos y ubicación, y para que un profesional agrónomo las diagnostique y haga seguimiento hasta resolverlas.
+Aplicación web para que agricultores del Llano Oriental colombiano reporten afectaciones con fotografías y ubicación, y un profesional agrónomo registre su diagnóstico y haga seguimiento hasta cerrar el caso.
 
-Proyecto académico — Politécnico Grancolombiano, Tecnología en Desarrollo de Software, desarrollado con Scrum.
-|||
+La interfaz nueva se ejecuta con **`ejecutar.py`**. Tiene páginas independientes, registro por pasos, paneles por rol, reportes con evidencia privada, historial, notificaciones, cuenta y estadísticas descargables. Usuarios, reportes y fotografías se conservan al reiniciar.
+
+**Guía completa de instalación y presentación: [INSTRUCCIONES_WEB.md](INSTRUCCIONES_WEB.md).**
+
+## Inicio rápido en Windows
+
+Requisito recomendado: Python 3.12 con pip. Desde la carpeta raíz:
+
+```powershell
+py -3 -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+.venv\Scripts\python.exe gestionar.py crear-profesional
+.venv\Scripts\python.exe ejecutar.py
+```
+
+Abrir **http://127.0.0.1:8000**. El comando de administración pide los datos del profesional y una contraseña elegida por ti. Los agricultores se registran desde la web. No existen cuentas habilitadas ni contraseñas predeterminadas.
+
+No necesitas MySQL, Node.js ni claves de servicios externos. Las fuentes, ilustraciones y estilos están incluidos; Internet solo es necesario para instalar dependencias. No es necesario activar el entorno virtual. Después de instalar también puedes iniciar con `INICIAR_WINDOWS.bat`.
+
+## Linux y macOS
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-lock.txt
+.venv/bin/python gestionar.py crear-profesional
+.venv/bin/python ejecutar.py
+```
+
+## Funciones
+
+| Rol | Acciones |
 |---|---|
-| **Docente** | Edilberto Torres Ortiz |
-| **Scrum Master** | Nicolás Abril Cárdenas |
-| **Product Owner** | Juan Miguel Parra Garzón |
-| **Equipo de desarrollo** | Santiago Cortez Mojica |
+| Agricultor (`campesino` en la lógica) | Registro con nombre, cédula, correo, teléfono y dirección; creación de reportes con fotos y ubicación; consulta de estados, historial, diagnóstico y recomendación; notificaciones y perfil. |
+| Profesional agrónomo | Consulta y filtro de casos; revisión de evidencia; diagnóstico, recomendación y cierre; estadísticas y exportación PDF/XLSX; perfil. |
 
-## Estado del proyecto
+El registro público siempre crea agricultores. Las cuentas profesionales se crean mediante el comando del servidor. La consulta de casos e imágenes valida rol y propiedad; no hay identificadores de usuario en la URL que sustituyan la sesión.
 
-Sprints 0 a 3 completados según la documentación previa. Sprint 4 implementado y probado; reunión realizada el 13 de octubre de 2026; integración y aceptación formal por completar:
+Se mantiene el ciclo **Reportado → En revisión → Diagnosticado → Resuelto**, y se permite diagnosticar directamente desde Reportado. Cada transición válida notifica al dueño del caso. El diagnóstico permanece disponible después del cierre.
 
-| Sprint | Historias | Contenido |
-|---|---|---|
-| 1 | US1, US2, US3 | Registro del campesino, reporte con fotos, ubicación del cultivo |
-| 2 | US4, US5, US6 | Reportes pendientes, diagnóstico del profesional, estado del reporte |
-| 3 | US7, US8, US9 | Notificaciones, cierre de caso, panel de estadísticas |
-| 4 | US10, US11 | Exportación PDF/Excel y consulta de diagnóstico propio; aceptación pendiente |
+## Datos persistentes
 
-Planeación y criterios: [Sprint 4](docs/SPRINT_4.md). Entrega y aceptación: [Acta del Sprint 4](docs/ACTA_SPRINT_4.md).
+Se prepara automáticamente `instance/` con la base `savia.db`, las fotografías en `evidencias/` y la clave privada en `secret_key`. **No borres ni publiques esta carpeta.** Está excluida de Git. Para un respaldo local, detén la aplicación y copia `instance/` completa a una ubicación privada.
 
-> **Nota:** el repositorio contiene la lógica de negocio y la base de datos, con sus pruebas unitarias, un recorrido en consola y una demo web de demostración. La interfaz web de producción (API y pantallas definitivas) se construye sobre esta misma lógica.
+`schema.sql` conserva las cinco tablas originales y añade perfil personal, sesiones, eventos del historial e intentos de acceso. Al inicializar una base anterior se crean las tablas nuevas sin borrar las existentes. Una cuenta antigua sin perfil completo requiere gestión del administrador para completar sus datos; las nuevas cuentas siempre lo crean.
 
-## Requisitos
+## Pruebas
 
-- Python 3.10 o superior (probado con 3.14)
-- `pip`
-- No se necesita instalar una base de datos: se usa SQLite, que ya viene con Python.
-
-## Instalación
-
-```bash
-git clone https://github.com/SayoNara34/Practicas-Proyecto.git
-cd Practicas-Proyecto
-
-# Opcional pero recomendado: entorno virtual
-python -m venv .venv
-.venv\Scripts\activate          # Windows
-# source .venv/bin/activate     # Linux / macOS
-
-python -m pip install -r requirements.txt
-python -m pytest                #95 passed
+```powershell
+.venv\Scripts\python.exe -m pytest -q
 ```
 
-## Cómo correr el proyecto
+Resultado de esta entrega: **98 passed**. Incluye las 69 pruebas originales y 29 escenarios web parametrizados con CSRF activo, permisos, evidencias reales, persistencia, sesión revocable, diagnóstico, notificaciones, cierre y exportaciones. Las pruebas usan carpetas temporales y no modifican tus registros.
 
-Todos los comandos se ejecutan desde la carpeta raíz (la que contiene `app`, `tests` y `schema.sql`).
+Se verificó la sintaxis JavaScript y las interacciones principales en un DOM aislado. No se realizó una inspección visual en un navegador real en el entorno de implementación. Recorre el guion de la guía antes de presentar al cliente.
 
-Para ver la **demo web** (pantallas de campesino y profesional, sobre la misma lógica):
+## Estructura
 
-```bash
-python demo_web.py          # abrir http://localhost:8000
+```text
+app/                  Reglas y consultas del dominio
+web/                  Aplicación Flask, rutas y comandos
+web/templates/        Vistas Jinja con escape automático
+web/static/           CSS, JavaScript, SVG y fuentes locales
+schema.sql            Esquema idempotente, compatible con las tablas anteriores
+ejecutar.py           Servidor Waitress sin modo de depuración
+gestionar.py          Creación de profesionales y restablecimiento de contraseña
+INSTRUCCIONES_WEB.md   Instalación, manual de uso, respaldo y solución de problemas
+requirements-lock.txt Versiones verificadas de las dependencias
+requirements.txt      Rangos de compatibilidad
+instance/             Datos privados de la instalación; no se versiona
+tests/                Pruebas de dominio y de la aplicación web
+demo.py               Demostración histórica en consola
+demo_web.py           Demostración web histórica, con datos en memoria
 ```
 
-El profesional puede filtrar las estadísticas por zona y tipo de plaga, pulsar **Filtrar** y usar **Descargar PDF** o **Descargar Excel**. El campesino ve en **Mis reportes** el diagnóstico, recomendación, profesional y fecha; si aún no existe, aparece un aviso de espera. El resultado sigue visible después del cierre. Los filtros son coincidencias exactas sin distinguir mayúsculas; vacíos incluyen todos los reportes. La exportación incluye los cuatro estados, total, filtros y fecha UTC.
+## Demostraciones anteriores y documentación
 
-Usuarios de ejemplo: `carlos@finca.co` (campesino) y `laura@agro.co` (profesional), contraseña `clave1234`. Usa base de datos en memoria; al reiniciar vuelve a los datos de ejemplo.
+`python demo.py` y `python demo_web.py` siguen disponibles como demostraciones históricas. Sus datos en memoria y fotos temporales no son los registros de la aplicación nueva. Para la presentación utiliza `python ejecutar.py`.
 
-Para ver el flujo completo en la consola (registro → reporte → diagnóstico → notificación → cierre → estadísticas):
+El manual de la nueva web es [INSTRUCCIONES_WEB.md](INSTRUCCIONES_WEB.md). Los PDF de demo, actas y diagramas del equipo se conservan como documentación histórica. [ENTREGA_WEB.md](docs/ENTREGA_WEB.md) registra el alcance y las verificaciones de esta implementación, sin atribuir aceptación del cliente ni reuniones no realizadas.
 
-```bash
-python demo.py
-```
+El README anterior mencionaba exportaciones y consulta de diagnóstico que no estaban en el código de main revisado. Esta entrega recupera esas funciones de US10 y US11 y las integra en la interfaz nueva. No equivale a cerrar formalmente el Sprint 4.
 
-El script usa una base de datos en memoria, así que se puede ejecutar cuantas veces se quiera sin dejar archivos.
+## Equipo y metodología
 
-Para usar la lógica desde otro código:
+Proyecto académico del Politécnico Grancolombiano, Tecnología en Desarrollo de Software, desarrollado con Scrum.
 
-```python
-from app import db, usuarios, reportes
+| Rol | Integrante |
+|---|---|
+| Docente | Edilberto Torres Ortiz |
+| Scrum Master | Nicolás Abril Cárdenas |
+| Product Owner | Juan Miguel Parra Garzón |
+| Desarrollo | Santiago Cortez Mojica |
 
-conn = db.conectar("plagas.db")   # o ":memory:" para no guardar nada
-db.inicializar(conn)
+El estándar está en [ESTANDAR_DOCUMENTACION.md](docs/ESTANDAR_DOCUMENTACION.md). El cumplimiento del DoD y la aceptación se registran por el equipo.
 
-campesino = usuarios.registrar_usuario(conn, "Carlos", "carlos@finca.co", "clave1234")
-reportes.crear_reporte(conn, campesino, "Hojas con manchas", "Vereda La Esperanza", ["hoja.jpg"])
-```
+## Alcance para presentación
 
-## Cómo correr las pruebas
+Versión funcional ejecutable localmente. La identidad Savia es una propuesta visual del proyecto y no representa afiliación gubernamental. El diagnóstico es profesional, no automático. No se incluyen dominio público, correo transaccional ni verificación documental de personas o profesionales. Para operación pública con datos reales se requiere configurar HTTPS, disco persistente, respaldos y el responsable/canal de privacidad; la guía explica la configuración opcional.
 
-```bash
-python -m pytest            # todas las pruebas
-python -m pytest -v         # con el nombre de cada prueba
-python -m pytest tests/test_us7_estados_notificaciones.py   # solo una historia
-```
-
-Resultado esperado: `95 passed`. Las pruebas usan una base de datos en memoria, por lo que no afectan ningún dato real.
-
-> Ejecutar siempre `python -m pytest` desde la carpeta raíz del proyecto. Si se corre desde otra carpeta, Python no encuentra el paquete `app`.
-
-Para verificar las descargas en una demo aislada (se inicia y cierra automáticamente):
-
-```bash
-python scripts/verificar_sprint_4.py
-```
-
-El manual de uso está en [docs/MANUAL_USUARIO_PLANTAS.pdf](docs/MANUAL_USUARIO_PLANTAS.pdf). Se conserva su diseño original y se agrega la guía del Sprint 4. ReportLab y openpyxl generan los archivos; pypdf se utiliza para verificarlos en las pruebas.
-
-## Arquitectura
-
-El sistema está organizado en capas simples, cada archivo con una sola responsabilidad:
-
-```
-Practicas-Proyecto/
-├── README.md
-├── schema.sql                  # Tablas: usuario, reporte, foto, diagnostico, notificacion
-├── app/                        # Lógica de negocio
-│   ├── db.py                   # Conexión a SQLite y creación de tablas
-│   ├── errores.py              # Excepciones de dominio
-│   ├── usuarios.py             # US1  Registro e inicio de sesión
-│   ├── reportes.py             # US2, US3, US4, US6  Reportes, ubicación y listados
-│   ├── estados.py              # US7  Estados del reporte y notificación automática
-│   ├── diagnosticos.py         # US5, US8, US11  Diagnóstico, cierre y consulta propia
-│   ├── notificaciones.py       # US7  Consulta y lectura de notificaciones
-│   ├── estadisticas.py         # US9  Conteo por estado, zona y tipo de plaga
-│   └── exportaciones.py        # US10 Exportación de estadísticas a PDF y Excel
-├── tests/                      # Pruebas unitarias con pytest, una por área
-├── docs/                       # Documentación del equipo
-│   ├── Diagramas/              # Casos de uso, clases, estados, secuencia y paquetes
-│   ├── Actas/                  # Dailys, sprints y retrospectivas del equipo
-│   ├── DoD_Control_Plagas_Platano.pdf   # Definition of Done
-│   ├── ESTANDAR_DOCUMENTACION.md        # Estándar de comentarios y docstrings (v1.1)
-│   ├── MANUAL_USUARIO_PLANTAS.pdf       # Manual de usuario, ampliado para US10 y US11
-│   ├── Product_Backlog.xlsx             # Product Backlog con el avance por sprint
-│   ├── SPRINT_4.pdf                     # Planeación del Sprint 4
-│   ├── ACTA_SPRINT_4.pdf                # Acta del Sprint 4
-│   ├── ACTA_EPS.md                      # Acta de Entrega Parcial de Software
-│   └── REVIEW SPRINT.txt                # Enlace al tablero Miro de la Sprint Review
-├── scripts/
-│   └── verificar_sprint_4.py   # Verificación HTTP real de US10 y US11
-├── demo.py                     # Recorrido de demostración en consola
-├── demo_web.py                 # Demo web (http.server) sobre la lógica de app/
-├── requirements.txt / pytest.ini
-└── .gitignore
-```
-
-**Capas.** La presentación (`demo_web.py`, `demo.py`) solo llama a los módulos de `app/`; no contiene reglas de negocio. Dentro de `app/` las dependencias van hacia abajo: `diagnosticos` usa `estados`, `reportes` y `usuarios`; `estados` usa `reportes`; `reportes` usa `usuarios`; `exportaciones` usa `estadisticas`; y casi todos comparten `db` (conexión) y `errores` (excepciones).
-
-**Roles.** Hay dos: *campesino* (reporta, consulta sus reportes, notificaciones y diagnóstico) y *profesional* (ve pendientes, diagnostica, cierra casos, consulta y exporta estadísticas). Las funciones que dependen del rol lo validan antes de actuar (`usuarios.exigir_rol`).
-
-**Ciclo de vida del reporte.** Es la regla central del sistema:
-
-```
-Reportado ──► En revisión ──► Diagnosticado ──► Resuelto
-    └──────────────────────────►┘
-```
-Un reporte también puede pasar directo de "Reportado" a "Diagnosticado". No se permiten otros saltos, y cada cambio válido genera una notificación para el campesino dueño del reporte (`estados.py`).
-
-
-**Base de datos.** SQLite mediante el módulo estándar `sqlite3`, con consultas parametrizadas. Las contraseñas se guardan con PBKDF2 y sal, nunca en texto plano.
-
-## Estándar de código
-
-Las convenciones de comentarios, docstrings y nombres están en [`docs/ESTANDAR_DOCUMENTACION.md`](docs/ESTANDAR_DOCUMENTACION.md). Aplican a todo código nuevo y hacen parte del Definition of Done.
-
-## Trabajo en equipo
-
-- Se trabaja por sprints con Scrum (planeación, daily, review y retrospectiva).
-- Una historia se considera terminada cuando cumple el [Definition of Done](docs/DoD_Control_Plagas_Platano.pdf) del equipo.
-- Los mensajes de commit indican la historia: `US7: notificar al campesino al cambiar el estado`.
+Las fuentes Manrope y Lora se distribuyen con sus licencias OFL en `web/static/fuentes/`. La iconografía e ilustraciones SVG se incluyen como recursos locales editables.

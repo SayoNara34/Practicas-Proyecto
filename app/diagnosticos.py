@@ -3,7 +3,7 @@ import sqlite3
 
 from . import usuarios
 from .db import ahora_iso
-from .errores import ErrorTransicion, ErrorValidacion
+from .errores import ErrorPermiso, ErrorTransicion, ErrorValidacion
 from .estados import cambiar_estado
 from .reportes import obtener_reporte
 
@@ -11,7 +11,7 @@ from .reportes import obtener_reporte
 def iniciar_revision(conn: sqlite3.Connection, reporte_id: int, profesional_id: int) -> None:
     """Pasa un reporte de "Reportado" a "En revisión"."""
     usuarios.exigir_rol(conn, profesional_id, "profesional")
-    cambiar_estado(conn, reporte_id, "En revisión")
+    cambiar_estado(conn, reporte_id, "En revisión", actor_id=profesional_id)
     conn.commit()
 
 
@@ -32,7 +32,7 @@ def registrar_diagnostico(conn: sqlite3.Connection, reporte_id: int, profesional
     if not recomendacion:
         raise ErrorValidacion("La recomendación es obligatoria.")
     obtener_reporte(conn, reporte_id)
-    cambiar_estado(conn, reporte_id, "Diagnosticado")
+    cambiar_estado(conn, reporte_id, "Diagnosticado", actor_id=profesional_id)
     cur = conn.execute(
         "INSERT INTO diagnostico (reporte_id, profesional_id, texto, recomendacion, creado_en) "
         "VALUES (?, ?, ?, ?, ?)",
@@ -51,5 +51,23 @@ def marcar_resuelto(conn: sqlite3.Connection, reporte_id: int, profesional_id: i
     usuarios.exigir_rol(conn, profesional_id, "profesional")
     if obtener_reporte(conn, reporte_id)["estado"] != "Diagnosticado":
         raise ErrorTransicion("Solo se puede resolver un reporte diagnosticado.")
-    cambiar_estado(conn, reporte_id, "Resuelto")
+    cambiar_estado(conn, reporte_id, "Resuelto", actor_id=profesional_id)
     conn.commit()
+
+
+def consultar_diagnostico(conn: sqlite3.Connection, reporte_id: int,
+                          campesino_id: int) -> sqlite3.Row | None:
+    """US11: consulta el resultado propio, incluso después del cierre.
+
+    Raises:
+        ErrorPermiso: El solicitante no es campesino o no es dueño del reporte.
+        ErrorNoEncontrado: El usuario o reporte no existe.
+    """
+    usuarios.exigir_rol(conn, campesino_id, "campesino")
+    reporte = obtener_reporte(conn, reporte_id)
+    if reporte["usuario_id"] != campesino_id:
+        raise ErrorPermiso("Solo puedes consultar el diagnóstico de tus propios reportes.")
+    return conn.execute(
+        "SELECT d.*, u.nombre AS profesional FROM diagnostico d "
+        "JOIN usuario u ON u.id = d.profesional_id WHERE d.reporte_id = ?",
+        (reporte_id,)).fetchone()

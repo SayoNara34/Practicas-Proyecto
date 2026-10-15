@@ -17,6 +17,8 @@ def conectar(ruta: str = ":memory:") -> sqlite3.Connection:
     """
     conn = sqlite3.connect(ruta)
     conn.row_factory = sqlite3.Row
+    # NOCASE de SQLite solo cubre ASCII; los municipios contienen acentos.
+    conn.create_function("CASEFOLD", 1, lambda texto: str(texto or "").casefold(), deterministic=True)
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
 

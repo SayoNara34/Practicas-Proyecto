@@ -77,6 +77,8 @@ def crear_reporte(conn: sqlite3.Connection, usuario_id: int, descripcion: str,
     reporte_id = cur.lastrowid
     conn.executemany("INSERT INTO foto (reporte_id, nombre_archivo) VALUES (?, ?)",
                      [(reporte_id, n) for n in fotos])
+    conn.execute("INSERT INTO evento_reporte (reporte_id, estado, actor_id, creado_en) "
+                 "VALUES (?, 'Reportado', ?, ?)", (reporte_id, usuario_id, marca))
     conn.commit()
     return reporte_id
 

@@ -16,18 +16,28 @@ _EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 def _hashear(password: str, salt: bytes | None = None) -> str:
     salt = salt or os.urandom(16)
-    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100_000)
-    return f"{salt.hex()}${digest.hex()}"
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 600_000)
+    return f"pbkdf2_sha256$600000${salt.hex()}${digest.hex()}"
 
 
 def _verificar(password: str, almacenado: str) -> bool:
-    salt_hex, digest_hex = almacenado.split("$")
-    esperado = _hashear(password, bytes.fromhex(salt_hex)).split("$")[1]
-    return hmac.compare_digest(esperado, digest_hex)
+    try:
+        partes = almacenado.split("$")
+        if len(partes) == 4 and partes[0] == "pbkdf2_sha256":
+            rondas, salt_hex, digest_hex = int(partes[1]), partes[2], partes[3]
+        else:
+            # Las cuentas de la versión anterior mantienen su acceso.
+            salt_hex, digest_hex = partes
+            rondas = 100_000
+        esperado = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(salt_hex), rondas).hex()
+        return hmac.compare_digest(esperado, digest_hex)
+    except (ValueError, TypeError):
+        return False
 
 
 def registrar_usuario(conn: sqlite3.Connection, nombre: str, email: str,
-                      password: str, rol: str = "campesino") -> int:
+                      password: str, rol: str = "campesino", *,
+                      confirmar: bool = True) -> int:
     """Registra un usuario nuevo (US1).
 
     Args:
@@ -36,6 +46,7 @@ def registrar_usuario(conn: sqlite3.Connection, nombre: str, email: str,
         email: Correo único con formato válido.
         password: Contraseña de al menos 8 caracteres.
         rol: "campesino" (por defecto) o "profesional".
+        confirmar: False permite crear el perfil en la misma transacción.
 
     Returns:
         Identificador del usuario creado.
@@ -61,7 +72,8 @@ def registrar_usuario(conn: sqlite3.Connection, nombre: str, email: str,
         "INSERT INTO usuario (nombre, email, password_hash, rol, creado_en) "
         "VALUES (?, ?, ?, ?, ?)",
         (nombre, email, _hashear(password), rol, ahora_iso()))
-    conn.commit()
+    if confirmar:
+        conn.commit()
     return cur.lastrowid
 
 
