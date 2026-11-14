@@ -1,0 +1,121 @@
+{
+  "_nota": "Datos ficticios para probar Savia. Los correos usan el dominio reservado .test y no existen. Cárgalos con: python cargar_demo.py",
+  "campesinos": [
+    {
+      "nombre": "Carlos Andrés Rojas",
+      "email": "carlos.rojas@savia.test",
+      "password": "Finca2026Carlos",
+      "cedula": "1012345601",
+      "telefono": "3104567801",
+      "departamento": "Meta",
+      "municipio": "Acacías",
+      "direccion": "Vereda La Esperanza, kilómetro 4 vía Guamal",
+      "vereda": "La Esperanza",
+      "finca": "El Porvenir"
+    },
+    {
+      "nombre": "María Fernanda Gutiérrez",
+      "email": "maria.gutierrez@savia.test",
+      "password": "Finca2026Maria",
+      "cedula": "1012345602",
+      "telefono": "3114567802",
+      "departamento": "Meta",
+      "municipio": "Granada",
+      "direccion": "Vereda Canaguaro, finca La Ceiba",
+      "vereda": "Canaguaro",
+      "finca": "La Ceiba"
+    },
+    {
+      "nombre": "José Luis Ramírez",
+      "email": "jose.ramirez@savia.test",
+      "password": "Finca2026Jose",
+      "cedula": "1012345603",
+      "telefono": "3124567803",
+      "departamento": "Meta",
+      "municipio": "Puerto López",
+      "direccion": "Calle 6 # 4-21, barrio Centro",
+      "vereda": "",
+      "finca": "Los Guaduales"
+    }
+  ],
+  "profesionales": [
+    {
+      "nombre": "Laura Mendoza Pardo",
+      "email": "laura.mendoza@savia.test",
+      "password": "Agro2026Laura",
+      "cedula": "1012345611",
+      "telefono": "3204567811",
+      "departamento": "Meta",
+      "municipio": "Villavicencio",
+      "direccion": "Carrera 33 # 15-40, Villavicencio",
+      "vereda": "",
+      "finca": ""
+    },
+    {
+      "nombre": "Andrés Felipe Castillo",
+      "email": "andres.castillo@savia.test",
+      "password": "Agro2026Andres",
+      "cedula": "1012345612",
+      "telefono": "3214567812",
+      "departamento": "Meta",
+      "municipio": "Villavicencio",
+      "direccion": "Calle 38 # 30A-12, Villavicencio",
+      "vereda": "",
+      "finca": ""
+    }
+  ],
+  "reportes": [
+    {
+      "campesino": "carlos.rojas@savia.test",
+      "descripcion": "Desde hace una semana aparecen rayas cafés en las hojas más viejas. En algunas plantas las manchas ya se unieron y la hoja se está secando desde el borde.",
+      "tipo_plaga": "Sigatoka negra",
+      "zona": "Acacías",
+      "ubicacion": "Vereda La Esperanza, finca El Porvenir, lote 2",
+      "foto": "manchas",
+      "estado": "Resuelto",
+      "profesional": "laura.mendoza@savia.test",
+      "diagnostico": "Los síntomas corresponden a Sigatoka negra (Mycosphaerella fijiensis) en estado avanzado en las hojas 5 a 8. La humedad del lote favorece la esporulación.",
+      "recomendacion": "Realizar deshoje sanitario de las hojas con más del 50 % de área afectada y retirarlas del lote. Mejorar el drenaje y la distancia de siembra. Programar una visita técnica para definir el manejo químico con productos registrados."
+    },
+    {
+      "campesino": "carlos.rojas@savia.test",
+      "descripcion": "Encontré galerías dentro del cormo de dos plantas caídas y unos escarabajos negros cerca de la base del pseudotallo.",
+      "tipo_plaga": "Picudo negro",
+      "zona": "Acacías",
+      "ubicacion": "4.012345, -73.765432",
+      "foto": "base",
+      "estado": "Diagnosticado",
+      "profesional": "laura.mendoza@savia.test",
+      "diagnostico": "Daño típico de picudo negro (Cosmopolites sordidus). Las galerías en el cormo explican el volcamiento de las plantas.",
+      "recomendacion": "Instalar trampas de pseudotallo partido (tipo sándwich) cada 20 metros y revisarlas cada semana. Eliminar residuos de cosecha y usar semilla sana en las resiembras."
+    },
+    {
+      "campesino": "maria.gutierrez@savia.test",
+      "descripcion": "Las hojas jóvenes se ponen amarillas y se doblan. Al cortar el pseudotallo se ve una coloración café por dentro.",
+      "tipo_plaga": "",
+      "zona": "Granada",
+      "ubicacion": "Vereda Canaguaro, finca La Ceiba, cerca al caño",
+      "foto": "amarillas",
+      "estado": "En revisión",
+      "profesional": "andres.castillo@savia.test"
+    },
+    {
+      "campesino": "maria.gutierrez@savia.test",
+      "descripcion": "Los racimos están saliendo con frutos manchados y cáscara áspera, como oxidada. Pasa en varias plantas del mismo lote.",
+      "tipo_plaga": "Trips",
+      "zona": "Granada",
+      "ubicacion": "Vereda Canaguaro, finca La Ceiba, lote del frente",
+      "foto": "fruto",
+      "estado": "Reportado"
+    },
+    {
+      "campesino": "jose.ramirez@savia.test",
+      "descripcion": "Algunas plantas crecen poco y se voltean con facilidad. Las raíces se ven negras y cortas cuando las saco.",
+      "tipo_plaga": "Nematodos",
+      "zona": "Puerto López",
+      "ubicacion": "Finca Los Guaduales, vía a Puerto Gaitán kilómetro 12",
+      "foto": "raices",
+      "estado": "Reportado"
+    }
+  ]
+}

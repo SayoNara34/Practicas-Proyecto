@@ -1,21 +1,25 @@
 {% macro icon(nombre, clase='') -%}
 {% set trazos = {
  'arrow':'M5 12h14m-6-6 6 6-6 6',
+ 'back':'M19 12H5m6 6-6-6 6-6',
  'chevron':'m9 5 7 7-7 7',
  'grid':'M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm11 0h7v7h-7z',
  'report':'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm0 0v6h6M8 13h8m-8 4h5',
  'plus':'M12 5v14M5 12h14',
  'bell':'M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4',
  'user':'M20 21v-2a7 7 0 0 0-14 0v2M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0',
+ 'users':'M17 21v-2a5 5 0 0 0-10 0v2m14 0v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8M15 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
  'logout':'M9 4H4v16h5m6-12 4 4-4 4m-6-4h12',
  'chart':'M4 20V4m0 16h17M9 16v-5m5 5V6m5 10V9',
  'leaf':'M20 3C10 2 3 6 4 13c1 7 12 9 15-2 1-3 1-5 1-8ZM5 20 16 8',
+ 'sprout':'M12 21v-9m0 0C12 7 9 4 4 4c0 5 3 8 8 8Zm0 0c0-4 3-7 8-7 0 4-3 7-8 7Z',
  'shield':'m12 2 9 4v6c0 5-9 10-9 10S3 17 3 12V6Zm-4 10 3 3 5-6',
  'check':'m5 12 4 4L19 6',
  'clock':'M12 7v5l3 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0',
  'pin':'M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Zm-5 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
  'upload':'M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5',
  'image':'M3 3h18v18H3zm0 14 6-6 4 4 3-3 5 5M8 7h.01',
+ 'camera':'M3 8h4l2-3h6l2 3h4v12H3zm12 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
  'search':'m21 21-6-6M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0',
  'download':'M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4',
  'menu':'M4 6h16M4 12h16M4 18h16',
@@ -23,25 +27,39 @@
  'eye':'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Zm13 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
  'lock':'M5 10h14v11H5zm3 0V6a4 4 0 0 1 8 0v4',
  'mail':'M3 4h18v16H3zm0 1 9 8 9-8',
+ 'phone':'M22 17v3a2 2 0 0 1-2 2A19 19 0 0 1 2 4a2 2 0 0 1 2-2h3l2 5-2.5 1.5a11 11 0 0 0 7 7L17 13l5 2Z',
+ 'home':'M3 11 12 3l9 8M5 9v12h14V9',
+ 'filter':'M3 5h18l-7 8v6l-4 2v-8Z',
+ 'inbox':'M3 13h5l2 3h4l2-3h5M5 5h14l2 8v6H3v-6Z',
+ 'stetho':'M6 3v6a5 5 0 0 0 10 0V3m-5 11v2a5 5 0 0 0 10 0v-2m0-2a2 2 0 1 1 0 4 2 2 0 0 1 0-4',
  'help':'M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3m0 3h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0'
 } %}
-<svg class="icon {{ clase }}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ trazos.get(nombre, trazos['leaf']) }}"/></svg>
+<svg class="icon {{ clase }}" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ trazos.get(nombre, trazos['leaf']) }}"/></svg>
 {%- endmacro %}
 
 {% macro marca(oscura=false) -%}
 <a class="brand {{ 'brand-light' if oscura }}" href="{{ url_for('portal.inicio') }}" aria-label="Savia, inicio">
-  <span class="brand-symbol">{{ icon('leaf') }}</span><span class="brand-word">savia<span class="brand-caption">SANIDAD DEL PLÁTANO</span></span>
+  <span class="brand-symbol">{{ icon('sprout') }}</span><span class="brand-word">savia<small>Sanidad del plátano</small></span>
 </a>
 {%- endmacro %}
 
-{% macro estado(valor) -%}<span class="status {{ valor|estado_css }}"><span></span>{{ valor }}</span>{%- endmacro %}
+{% macro estado(valor) -%}<span class="status {{ valor|estado_css }}"><i aria-hidden="true"></i>{{ valor }}</span>{%- endmacro %}
+
+{# Ruta del caso: los cuatro estados como nodos-hoja sobre un tallo. #}
+{% macro ruta(actual, compacta=false) -%}
+{% set orden = ['Reportado', 'En revisión', 'Diagnosticado', 'Resuelto'] %}
+{% set posicion = orden.index(actual) if actual in orden else 0 %}
+<ol class="route {{ 'route-compact' if compacta }}" style="--done: {{ posicion }}" aria-label="Avance del caso: {{ actual }}">
+{% for paso in orden %}<li class="route-step {{ 'is-done' if loop.index0 < posicion }} {{ 'is-current' if loop.index0 == posicion }}" {% if loop.index0 == posicion %}aria-current="step"{% endif %}><span class="route-node {{ paso|estado_css }}" aria-hidden="true">{% if loop.index0 < posicion or (loop.index0 == posicion and paso == 'Resuelto') %}{{ icon('check') }}{% endif %}</span><span class="route-label">{{ paso }}</span></li>{% endfor %}
+</ol>
+{%- endmacro %}
 
 {% macro vacio(titulo, texto, enlace='', boton='Crear mi primer reporte') -%}
-<div class="empty-state"><span class="empty-icon">{{ icon('leaf') }}</span><h3>{{ titulo }}</h3><p>{{ texto }}</p>{% if enlace %}<a class="button" href="{{ enlace }}">{{ boton }}{{ icon('arrow') }}</a>{% endif %}</div>
+<div class="empty-state"><span class="empty-icon">{{ icon('sprout') }}</span><h3>{{ titulo }}</h3><p>{{ texto }}</p>{% if enlace %}<a class="button" href="{{ enlace }}">{{ boton }}</a>{% endif %}</div>
 {%- endmacro %}
 
 {% macro tabla_casos(filas, profesional=false) -%}
-<div class="table-scroll"><table class="case-table"><thead><tr><th>Reporte</th>{% if profesional %}<th>Agricultor</th>{% endif %}<th>Municipio</th><th>Estado</th><th>Registro</th><th><span class="sr-only">Consultar</span></th></tr></thead><tbody>
-{% for caso in filas %}<tr><td><a class="case-name" href="{{ url_for('portal.ver_reporte', reporte_id=caso.id) }}"><span class="case-thumb">{% if caso.portada %}<img src="{{ url_for('portal.evidencia', nombre=caso.portada) }}" alt="" loading="lazy">{% else %}{{ icon('report') }}{% endif %}</span><span><small>SV-{{ '%04d'|format(caso.id) }}</small><strong>{{ caso.descripcion|truncate(58) }}</strong></span></a></td>{% if profesional %}<td>{{ caso.agricultor }}</td>{% endif %}<td>{{ caso.zona or 'Sin especificar' }}</td><td>{{ estado(caso.estado) }}</td><td class="date-cell">{{ caso.creado_en|fecha }}</td><td><a class="icon-link" href="{{ url_for('portal.ver_reporte', reporte_id=caso.id) }}" aria-label="Abrir reporte {{ caso.id }}">{{ icon('arrow') }}</a></td></tr>{% endfor %}
+<div class="table-scroll"><table class="case-table"><thead><tr><th scope="col">Reporte</th>{% if profesional %}<th scope="col">Agricultor</th>{% endif %}<th scope="col">Municipio</th><th scope="col">Estado</th><th scope="col">Registro</th><th scope="col"><span class="sr-only">Abrir</span></th></tr></thead><tbody>
+{% for caso in filas %}<tr><td><a class="case-name" href="{{ url_for('portal.ver_reporte', reporte_id=caso.id) }}"><span class="case-thumb">{% if caso.portada %}<img src="{{ url_for('portal.evidencia', nombre=caso.portada) }}" alt="" loading="lazy">{% else %}{{ icon('image') }}{% endif %}</span><span class="case-text"><small>SV-{{ '%04d'|format(caso.id) }}</small><strong>{{ caso.descripcion|truncate(64) }}</strong></span></a></td>{% if profesional %}<td class="cell-person">{{ caso.agricultor }}</td>{% endif %}<td>{{ caso.zona or 'Sin especificar' }}</td><td>{{ estado(caso.estado) }}</td><td class="date-cell">{{ caso.creado_en|fecha }}</td><td class="cell-go"><span class="go-chip" aria-hidden="true">{{ icon('chevron') }}</span></td></tr>{% endfor %}
 </tbody></table></div>
 {%- endmacro %}

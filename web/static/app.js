@@ -194,6 +194,12 @@ if (sidebar && navToggle) {
     }
   });
 }
+const publicHeader = document.querySelector('[data-public-header]');
+if (publicHeader) {
+  const onScroll = () => publicHeader.classList.toggle('is-scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
 const publicMenu = document.querySelector('[data-public-menu]');
 if (publicMenu) publicMenu.addEventListener('click', () => {
   const expanded = document.querySelector('.public-header nav').classList.toggle('is-open');

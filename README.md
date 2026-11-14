@@ -47,6 +47,18 @@ Se prepara automáticamente `instance/` con la base `savia.db`, las fotografías
 
 `schema.sql` conserva las cinco tablas originales y añade perfil personal, sesiones, eventos del historial e intentos de acceso. Al inicializar una base anterior se crean las tablas nuevas sin borrar las existentes. Una cuenta antigua sin perfil completo requiere gestión del administrador para completar sus datos; las nuevas cuentas siempre lo crean.
 
+## Usuarios de demostración
+
+Para probar sin registrar cuentas a mano hay tres agricultores y dos profesionales ficticios. Sus credenciales están en `datos_demo/USUARIOS_DEMO.txt` y sus datos en `datos_demo/usuarios_demo.json`.
+
+```powershell
+.venv\Scripts\python.exe cargar_demo.py                  # solo usuarios
+.venv\Scripts\python.exe cargar_demo.py --con-reportes   # usuarios y 5 reportes en los cuatro estados
+.venv\Scripts\python.exe cargar_demo.py --solo-reiniciar # borra la base local para empezar desde cero
+```
+
+El script omite los usuarios que ya existen. Si no lo ejecutas, la aplicación arranca vacía.
+
 ## Pruebas
 
 ```powershell
@@ -67,6 +79,7 @@ web/static/           CSS, JavaScript, SVG y fuentes locales
 schema.sql            Esquema idempotente, compatible con las tablas anteriores
 ejecutar.py           Servidor Waitress sin modo de depuración
 gestionar.py          Creación de profesionales y restablecimiento de contraseña
+cargar_demo.py        Carga usuarios y reportes de demostración (datos_demo/)
 INSTRUCCIONES_WEB.md   Instalación, manual de uso, respaldo y solución de problemas
 requirements-lock.txt Versiones verificadas de las dependencias
 requirements.txt      Rangos de compatibilidad

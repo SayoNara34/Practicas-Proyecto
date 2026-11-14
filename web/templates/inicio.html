@@ -1,8 +1,101 @@
 {% extends 'base.html' %}{% from 'macros.html' import icon %}
+{% block body_class %}page-home{% endblock %}
 {% block contenido %}
-<section class="hero container"><div class="hero-copy reveal"><div class="eyebrow"><span class="small-line"></span>UNA TIERRA SANA, UN MEJOR FUTURO</div><h1>El cuidado de tu cultivo<br>empieza <em>aquí.</em></h1><p>Reporta las afectaciones de tu cultivo de plátano y recibe orientación de un profesional agrónomo. Cerca de tu tierra, en cada etapa.</p><div class="button-row"><a href="{{ url_for('portal.registro') }}" class="button">Reportar una afectación{{ icon('arrow') }}</a><a href="{{ url_for('portal.orientacion') }}" class="text-link">Conocer el servicio{{ icon('chevron') }}</a></div><div class="hero-trust">{{ icon('shield') }}<span>Tus reportes, tus datos y un seguimiento claro.</span></div></div>
-<div class="hero-visual reveal"><img class="landscape" src="{{ url_for('static', filename='cultivo.svg') }}" alt="Ilustración de un cultivo de plátano entre las montañas y los campos del Llano Oriental" fetchpriority="high"><div class="visual-label"><span class="visual-label-icon">{{ icon('leaf') }}</span><div><small>EL CULTIVO EN EL CENTRO</small><strong>La información llega.<br>La atención comienza.</strong></div></div><span class="visual-coordinate">LLANO ORIENTAL / COLOMBIA</span></div></section>
-<section class="promise-band"><div class="container promise-grid"><div>{{ icon('image') }}<span><strong>Reporta con evidencia</strong><small>Fotografías y ubicación del cultivo</small></span></div><div>{{ icon('user') }}<span><strong>Recibe orientación profesional</strong><small>Diagnóstico y recomendaciones</small></span></div><div>{{ icon('clock') }}<span><strong>Consulta cada avance</strong><small>Del reporte al cierre del caso</small></span></div></div></section>
-<section class="section container"><div class="section-intro reveal"><span class="eyebrow">UN PROCESO SENCILLO</span><h2>De la observación<br>a una mejor decisión.</h2><p>Una ruta clara para conectar lo que ocurre en tu cultivo con la atención que necesita.</p></div><div class="steps-grid"><article class="step-card reveal"><span class="step-number">01</span>{{ icon('report') }}<h3>Cuéntanos qué ocurre</h3><p>Crea tu cuenta y describe la afectación. Agrega fotografías claras y la ubicación del cultivo.</p><span class="step-footer">DESDE TU COMPUTADOR O CELULAR</span></article><article class="step-card reveal"><span class="step-number">02</span>{{ icon('leaf') }}<h3>Un profesional lo revisa</h3><p>El agrónomo analiza la evidencia y registra un diagnóstico con una recomendación para tu caso.</p><span class="step-footer">ATENCIÓN CON CRITERIO PROFESIONAL</span></article><article class="step-card reveal"><span class="step-number">03</span>{{ icon('check') }}<h3>Acompaña el proceso</h3><p>Recibe las novedades y consulta el resultado. El historial permanece disponible al cerrar el caso.</p><span class="step-footer">INFORMACIÓN EN UN SOLO LUGAR</span></article></div></section>
-<section class="container section-bottom"><div class="callout reveal"><div><span class="eyebrow">POR TU CULTIVO. POR TU TRANQUILIDAD.</span><h2>Observar a tiempo<br>marca la diferencia.</h2><p>Comienza con un reporte. Nosotros hacemos más claro el seguimiento.</p></div><a href="{{ url_for('portal.registro') }}" class="button button-cream">Crear mi cuenta{{ icon('arrow') }}</a><span class="callout-leaf">{{ icon('leaf') }}</span></div></section>
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="hero-kicker">{{ icon('pin') }}Cultivos de plátano del Llano Oriental</p>
+      <h1>Tu platanera, atendida a tiempo.</h1>
+      <p class="hero-lead">Reporta manchas, plagas o daños con fotos y la ubicación del cultivo. Un profesional agrónomo revisa tu caso, registra un diagnóstico y te avisa en cada avance.</p>
+      <div class="button-row">
+        <a href="{{ url_for('portal.registro') }}" class="button button-large">Crear cuenta y reportar{{ icon('arrow') }}</a>
+        <a href="{{ url_for('portal.orientacion') }}" class="button button-ghost button-large">Ver cómo funciona</a>
+      </div>
+      <ul class="hero-facts">
+        <li>{{ icon('camera') }}<span><strong>1 a 6 fotos</strong> por reporte</span></li>
+        <li>{{ icon('stetho') }}<span><strong>Diagnóstico</strong> firmado por un agrónomo</span></li>
+        <li>{{ icon('bell') }}<span><strong>Aviso</strong> en cada cambio de estado</span></li>
+      </ul>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-frame"><img src="{{ url_for('static', filename='cultivo.svg') }}" alt="Ilustración de un cultivo de plátano entre las montañas del Llano Oriental" fetchpriority="high" width="700" height="800"></div>
+      <article class="case-demo" aria-label="Ejemplo de un caso que avanza por sus cuatro estados">
+        <header class="case-demo-head">
+          <span class="case-demo-photo">{{ icon('leaf') }}</span>
+          <div><small>SV-0128 en Acacías, Meta</small><strong>Manchas amarillas en hojas jóvenes</strong></div>
+        </header>
+        <ol class="case-demo-route" aria-hidden="true">
+          <li><i></i>Reportado</li><li><i></i>En revisión</li><li><i></i>Diagnosticado</li><li><i></i>Resuelto</li>
+        </ol>
+        <p class="case-demo-note"><span class="case-demo-avatar">L</span><span><strong>Laura M., agrónoma</strong> registró el diagnóstico y una recomendación.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section how">
+  <div class="container">
+    <div class="section-head">
+      <h2>Tres pasos, del cultivo al diagnóstico</h2>
+      <p>No necesitas saber qué plaga es. Cuéntanos lo que ves y un profesional se encarga del resto.</p>
+    </div>
+    <ol class="how-steps">
+      <li class="how-step"><span class="how-num">1</span><div class="how-icon">{{ icon('camera') }}</div><h3>Reporta lo que observas</h3><p>Describe la afectación, indica el municipio y adjunta fotos claras de la planta y de los detalles.</p></li>
+      <li class="how-step"><span class="how-num">2</span><div class="how-icon">{{ icon('stetho') }}</div><h3>Un agrónomo lo revisa</h3><p>El profesional analiza la evidencia y registra un diagnóstico con una recomendación para tu caso.</p></li>
+      <li class="how-step"><span class="how-num">3</span><div class="how-icon">{{ icon('sprout') }}</div><h3>Sigue cada avance</h3><p>Recibes una notificación en cada cambio. El resultado queda disponible incluso después de cerrar el caso.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section roles">
+  <div class="container roles-grid">
+    <article class="role-card">
+      <span class="role-icon">{{ icon('sprout') }}</span>
+      <h2>Si cultivas plátano</h2>
+      <p>Un espacio para reportar y consultar la atención de tu cultivo desde el celular o el computador.</p>
+      <ul class="check-list">
+        <li>{{ icon('check') }}Reportes con fotos y ubicación del cultivo</li>
+        <li>{{ icon('check') }}Estado de cada caso, siempre visible</li>
+        <li>{{ icon('check') }}Diagnóstico y recomendación por escrito</li>
+      </ul>
+      <a class="button" href="{{ url_for('portal.registro') }}">Crear mi cuenta</a>
+    </article>
+    <article class="role-card role-card-dark">
+      <span class="role-icon">{{ icon('stetho') }}</span>
+      <h2>Si eres agrónomo</h2>
+      <p>Una bandeja de casos ordenada por antigüedad, con la evidencia y los datos de contacto en un solo lugar.</p>
+      <ul class="check-list">
+        <li>{{ icon('check') }}Casos pendientes, del más antiguo al más reciente</li>
+        <li>{{ icon('check') }}Revisión, diagnóstico y cierre con trazabilidad</li>
+        <li>{{ icon('check') }}Estadísticas por zona y plaga, en PDF o Excel</li>
+      </ul>
+      <a class="button button-light" href="{{ url_for('portal.ingresar') }}">Ingresar como profesional</a>
+    </article>
+  </div>
+</section>
+
+<section class="section states">
+  <div class="container">
+    <div class="section-head">
+      <h2>Siempre sabrás en qué va tu caso</h2>
+      <p>Cada reporte pasa por cuatro estados. Los ves en tu panel y recibes un aviso cuando cambian.</p>
+    </div>
+    <ol class="state-strip">
+      <li><span class="status reportado"><i aria-hidden="true"></i>Reportado</span><p>Tu caso quedó registrado con su evidencia.</p></li>
+      <li><span class="status revision"><i aria-hidden="true"></i>En revisión</span><p>Un profesional está analizando la información.</p></li>
+      <li><span class="status diagnosticado"><i aria-hidden="true"></i>Diagnosticado</span><p>Ya tienes un resultado y una recomendación.</p></li>
+      <li><span class="status resuelto"><i aria-hidden="true"></i>Resuelto</span><p>El profesional cerró la atención del caso.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="container cta-band-wrap">
+  <div class="cta-band">
+    <div>
+      <h2>Observar a tiempo marca la diferencia.</h2>
+      <p>Crear tu cuenta toma unos minutos. Tu primer reporte, menos.</p>
+    </div>
+    <a href="{{ url_for('portal.registro') }}" class="button button-light button-large">Crear mi cuenta{{ icon('arrow') }}</a>
+  </div>
+</section>
 {% endblock %}

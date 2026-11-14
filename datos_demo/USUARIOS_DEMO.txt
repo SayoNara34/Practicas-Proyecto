@@ -1,0 +1,62 @@
+SAVIA - USUARIOS DE DEMOSTRACIÓN
+================================
+
+Datos ficticios para probar la aplicación en tu computador.
+Los correos usan el dominio reservado .test: no existen ni reciben mensajes.
+
+Antes de usarlos hay que cargarlos (ver "Cómo cargarlos" al final).
+
+
+AGRICULTORES (rol campesino)
+----------------------------
+Nombre:      Carlos Andrés Rojas  (Acacías, finca El Porvenir)
+Usuario:     carlos.rojas@savia.test
+Contraseña:  Finca2026Carlos
+
+Nombre:      María Fernanda Gutiérrez  (Granada, finca La Ceiba)
+Usuario:     maria.gutierrez@savia.test
+Contraseña:  Finca2026Maria
+
+Nombre:      José Luis Ramírez  (Puerto López, finca Los Guaduales)
+Usuario:     jose.ramirez@savia.test
+Contraseña:  Finca2026Jose
+
+
+PROFESIONALES AGRÓNOMOS (rol profesional)
+-----------------------------------------
+Nombre:      Laura Mendoza Pardo
+Usuario:     laura.mendoza@savia.test
+Contraseña:  Agro2026Laura
+
+Nombre:      Andrés Felipe Castillo
+Usuario:     andres.castillo@savia.test
+Contraseña:  Agro2026Andres
+
+
+CÓMO CARGARLOS
+--------------
+Abre una terminal en la carpeta del proyecto y ejecuta UNA de estas opciones:
+
+  1) Solo los usuarios:
+     .venv\Scripts\python.exe cargar_demo.py
+
+  2) Usuarios y 5 reportes de ejemplo con fotos, en los cuatro estados
+     (Reportado, En revisión, Diagnosticado y Resuelto):
+     .venv\Scripts\python.exe cargar_demo.py --con-reportes
+
+  3) Empezar desde cero (borra la base local y las fotos; pide escribir BORRAR):
+     .venv\Scripts\python.exe cargar_demo.py --solo-reiniciar
+
+     Borrar y volver a cargar todo en un paso:
+     .venv\Scripts\python.exe cargar_demo.py --reiniciar --con-reportes
+
+Si no quieres usar estos datos, no ejecutes el script: la aplicación arranca
+vacía y puedes registrar agricultores desde la página "Crear cuenta". Las
+cuentas de profesionales se crean con:
+     .venv\Scripts\python.exe gestionar.py crear-profesional
+
+Los datos de cada usuario están en datos_demo/usuarios_demo.json. Puedes
+editarlo para cambiar nombres, correos o contraseñas antes de cargarlo.
+(Contraseñas: entre 10 y 128 caracteres, con letras y números.)
+
+Para iniciar la aplicación: INICIAR_WINDOWS.bat  ->  http://127.0.0.1:8000
